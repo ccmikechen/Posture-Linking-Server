@@ -12,8 +12,9 @@ defmodule Poselink do
       supervisor(Poselink.Repo, []),
       # Start the endpoint when the application starts
       supervisor(Poselink.Endpoint, []),
-      # Start your own worker by calling: Poselink.Worker.start_link(arg1, arg2, arg3)
-      # worker(Poselink.Worker, [arg1, arg2, arg3]),
+      # Start the Trigger and Action
+      supervisor(Poselink.Trigger, []),
+      supervisor(Poselink.Action, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
