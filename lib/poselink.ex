@@ -13,8 +13,8 @@ defmodule Poselink do
       # Start the endpoint when the application starts
       supervisor(Poselink.Endpoint, []),
       # Start the Trigger and Action
-      supervisor(Poselink.Trigger, []),
-      supervisor(Poselink.Action, [])
+      supervisor(Poselink.TriggerSupervisor, []),
+      supervisor(Poselink.ActionSupervisor, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

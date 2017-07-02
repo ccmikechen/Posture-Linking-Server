@@ -1,4 +1,4 @@
-defmodule Poselink.Action do
+defmodule Poselink.ActionSupervisor do
 
   def start_link() do
     import Supervisor.Spec
@@ -8,7 +8,7 @@ defmodule Poselink.Action do
       supervisor(Poselink.ActionService, [])
     ]
 
-    opts = [strategy: :one_for_one, name: Poselink.Action.Supervisor]
+    opts = [strategy: :one_for_one, name: __MODULE__]
     Supervisor.start_link(children, opts)
   end
 end

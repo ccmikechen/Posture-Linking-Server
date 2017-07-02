@@ -13,7 +13,7 @@ defmodule Poselink.UserController do
 
         new_conn
         |> put_status(:created)
-        |> render(Petsgo.SessionView, "show.json", user: user, jwt: jwt)
+        |> render(Poselink.SessionView, "show.json", user: user, jwt: jwt)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)

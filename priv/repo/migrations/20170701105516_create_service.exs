@@ -12,5 +12,6 @@ defmodule Poselink.Repo.Migrations.CreateService do
     end
     create index(:services, [:classification_id])
 
+    create unique_index(:services, [:type, :name])
   end
 end

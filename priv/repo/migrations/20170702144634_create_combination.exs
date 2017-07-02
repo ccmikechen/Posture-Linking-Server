@@ -15,5 +15,6 @@ defmodule Poselink.Repo.Migrations.CreateCombination do
     create index(:combinations, [:trigger_id])
     create index(:combinations, [:action_id])
 
+    create unique_index(:combinations, [:user_id, :trigger_id, :action_id])
   end
 end
