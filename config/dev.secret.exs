@@ -4,10 +4,5 @@ config :poselink, Poselink.Repo,
   username: "postgres",
   password: "postgres"
 
-config :pushex,
-  gcm: [
-    default_app: "poselink_app",
-    apps: [
-      [name: "poselink_app", auth_key: "AIzaSyDWEKTiYWfwRbT31x46GZOiqyA7oczPLEQ"]
-    ]
-  ]
+config :poselink, Poselink.ActionService.NotificationAction,
+  api_key: "AAAAVYydE-E:APA91bG1zPKY0jtXGE_iptnIbCXCWgOox0rfvUqxcJo_HHHMKXmArUWumSHLCjaGmSdxmhVWMU1dTpVpOwb0piTTKaxiL8gADvFOTlyTdIb-X2X5tw4qeO8Pv_5b5TDoxWRrRXexwMu6"

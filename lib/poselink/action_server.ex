@@ -1,6 +1,12 @@
 defmodule Poselink.ActionServer do
   use GenServer
 
+  alias Poselink.ActionService
+
+  @action_services %{
+    2 => ActionService.NotificationAction
+  }
+
   def start_link() do
     GenServer.start_link(__MODULE__, nil, [name: __MODULE__])
   end
@@ -12,9 +18,17 @@ defmodule Poselink.ActionServer do
   # Server
 
   def handle_cast({:execute, user_id, action_id, payload}, state) do
-    # get action by action_id and execute action
-    user = Poselink.Repo.get(Poselink.User, user_id)
-    IO.puts "#{inspect(self)}: Action #{action_id} has been executed by #{user.username}"
+    alias Poselink.Repo
+    alias Poselink.User
+    alias Poselink.Action
+    
+    user = Repo.get(User, user_id)
+    service_id = Repo.get(Action, action_id).service_id
+
+    IO.puts "#{inspect(self)}: Service #{service_id} has been executed by #{user.username}"
+
+    service = @action_services[service_id]
+    service.execute(user, payload)
 
     {:noreply, state}
   end
