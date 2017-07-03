@@ -18,7 +18,17 @@ defmodule Poselink.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Poselink, []},
-     applications: [:phoenix, :phoenix_pubsub, :cowboy, :logger, :gettext, :phoenix_ecto, :postgrex, :comeonin, :guardian]]
+     applications: [
+       :phoenix,
+       :phoenix_pubsub,
+       :cowboy,
+       :logger,
+       :gettext,
+       :phoenix_ecto,
+       :postgrex,
+       :comeonin,
+       :guardian,
+       :pushex]]
   end
 
   # Specifies which paths to compile per environment.
@@ -37,7 +47,8 @@ defmodule Poselink.Mixfile do
      {:cowboy, "~> 1.0"},
      {:comeonin, "~> 3.0.2"},
      {:guardian, "~> 0.14.2"},
-     {:cors_plug, "~> 1.2.1"}]
+     {:cors_plug, "~> 1.2.1"},
+     {:pushex, "~> 0.1"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
