@@ -22,5 +22,8 @@ defmodule Poselink.Router do
     get "/sessions/user", SessionController, :show_user
 
     resources "/users", UserController, only: [:create]
+
+    post "/trigger/trigger", TriggerController, :trigger
+    
   end
 end

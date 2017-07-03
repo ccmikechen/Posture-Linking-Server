@@ -56,11 +56,11 @@ defmodule Poselink.SessionController do
   def unauthenticated(conn, _params) do
     conn
     |> put_status(:forbidden)
-    |> render(Petsgo.SessionView, "forbidden.json", error: "Not authenticated")
+    |> render(Poselink.SessionView, "forbidden.json", error: "Not authenticated")
   end
 
   defp authenticate(%{"username" => username, "password" => password}) do
-    user = Repo.get_by(Petsgo.User, username: username)
+    user = Repo.get_by(Poselink.User, username: username)
 
     case check_password(user, password) do
       true -> {:ok, user}

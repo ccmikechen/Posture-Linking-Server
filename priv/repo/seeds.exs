@@ -65,6 +65,32 @@ combinations = [
     user: "testuser",
     description: "",
     status: 1
+  },
+  %{
+    trigger: %{
+      service: "button",
+      config: ""
+    },
+    action: %{
+      service: "notification",
+      config: ""
+    },
+    user: "testuser",
+    description: "",
+    status: 1
+  },
+  %{
+    trigger: %{
+      service: "button",
+      config: ""
+    },
+    action: %{
+      service: "notification",
+      config: ""
+    },
+    user: "testuser",
+    description: "",
+    status: 1
   }
 ]
 
