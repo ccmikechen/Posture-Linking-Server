@@ -15,6 +15,7 @@ defmodule Poselink.ActionServer do
     # get action by action_id and execute action
     user = Poselink.Repo.get(Poselink.User, user_id)
     IO.puts "#{inspect(self)}: Action #{action_id} has been executed by #{user.username}"
+
     {:noreply, state}
   end
 

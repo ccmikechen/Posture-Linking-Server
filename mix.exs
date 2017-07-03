@@ -28,7 +28,7 @@ defmodule Poselink.Mixfile do
        :postgrex,
        :comeonin,
        :guardian,
-       :pushex]]
+       :gcm]]
   end
 
   # Specifies which paths to compile per environment.
@@ -48,7 +48,7 @@ defmodule Poselink.Mixfile do
      {:comeonin, "~> 3.0.2"},
      {:guardian, "~> 0.14.2"},
      {:cors_plug, "~> 1.2.1"},
-     {:pushex, "~> 0.1"}]
+     {:gcm, "~> 1.2"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
