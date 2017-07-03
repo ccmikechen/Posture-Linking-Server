@@ -5,16 +5,19 @@ defmodule Poselink.CombinationView do
     %{data: render_many(combinations, Poselink.CombinationView, "combination.json")}
   end
 
-  def render("show.json", %{combination: combination}) do
-    %{data: render_one(combination, Poselink.CombinationView, "combination.json")}
-  end
-
   def render("combination.json", %{combination: combination}) do
-    %{id: combination.id,
-      user_id: combination.user_id,
-      trigger_id: combination.trigger_id,
-      action_id: combination.action_id,
+    %{
+      id: combination.id,
+      trigger: %{
+        service_id: combination.trigger.service_id,
+        config: Poison.decode!(combination.trigger.config)
+      },
+      action: %{
+        service_id: combination.action.service_id,
+        config: Poison.decode!(combination.action.config)
+      },
       description: combination.description,
-      status: combination.status}
+      status: combination.status
+    }
   end
 end

@@ -24,6 +24,8 @@ defmodule Poselink.Router do
     resources "/users", UserController, only: [:create]
 
     post "/trigger/trigger", TriggerController, :trigger
-    
+
+    resources "/services", ServiceController, only: [:index]
+    resources "/combinations", CombinationController, only: [:index]
   end
 end

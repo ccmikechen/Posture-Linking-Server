@@ -56,11 +56,13 @@ combinations = [
   %{
     trigger: %{
       service: "button",
-      config: ""
+      config: "{}"
     },
     action: %{
       service: "notification",
-      config: ""
+      config: Poison.encode! %{
+        content: "hello"
+      }
     },
     user: "testuser",
     description: "",
@@ -69,11 +71,13 @@ combinations = [
   %{
     trigger: %{
       service: "button",
-      config: ""
+      config: "{}"
     },
     action: %{
       service: "notification",
-      config: ""
+      config: Poison.encode! %{
+        content: "man"
+      }
     },
     user: "testuser",
     description: "",
@@ -82,11 +86,13 @@ combinations = [
   %{
     trigger: %{
       service: "button",
-      config: ""
+      config: "{}"
     },
     action: %{
       service: "notification",
-      config: ""
+      config: Poison.encode! %{
+        content: "yo guys!"
+      }
     },
     user: "testuser",
     description: "",
