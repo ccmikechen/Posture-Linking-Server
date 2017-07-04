@@ -23,7 +23,7 @@ defmodule Poselink.ActionService.NotificationAction do
           message: "hi",
           sound: "default",
           icon: "default",
-          color: "#FF0000"
+          color: "#FFFFFF"
         },
         data: %{
           message: "hi"

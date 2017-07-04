@@ -22,6 +22,13 @@ alias Poselink.User
 
 # Initial constants
 
+default_user = %{
+  username: "testuser",
+  password: "aaaaaaaa",
+  email: "test@aaa.com",
+  nickname: "test"
+}
+
 notification_types = [
   "system",
   "activity",
@@ -101,6 +108,15 @@ combinations = [
 ]
 
 # Ecto functions
+
+User.registration_changeset(%User{},
+  %{
+    "username" => default_user.username,
+    "password" => default_user.password,
+    "email" => default_user.email,
+    "nickname" => default_user.nickname
+  })
+  |> Repo.insert(on_conflict: :nothing, conflict_target: [:username])
 
 notification_types
 |> Enum.map(fn name -> %NotificationType{name: name} end)
