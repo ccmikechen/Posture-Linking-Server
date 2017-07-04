@@ -20,7 +20,7 @@ defmodule Poselink.TriggerServer do
 
     query =
       from c in Combination,
-      preload: [:action],
+      preload: [:action, :user],
       where: c.trigger_id == ^trigger.id
 
     combinations = Repo.all(query)
@@ -28,7 +28,11 @@ defmodule Poselink.TriggerServer do
     |> Enum.each(fn combination ->
       if combination.status == 1 do
         IO.puts "#{inspect(self)}: Combination #{combination.id} has been triggered"
-        Poselink.ActionServer.execute(combination.action, payload)
+        Poselink.ActionServer.execute(
+          combination.user,
+          combination.action,
+          payload
+        )
       end
     end)
 

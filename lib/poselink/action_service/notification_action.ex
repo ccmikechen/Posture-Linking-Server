@@ -1,37 +1,46 @@
 defmodule Poselink.ActionService.NotificationAction do
   use GenServer
 
-  def start_link() do
-    GenServer.start_link(__MODULE__, nil, [name: __MODULE__])
+  alias Poselink.Repo
+  alias Poselink.UserServiceConfig
+
+  def start_link(service_id) do
+    GenServer.start_link(__MODULE__, service_id, [name: __MODULE__])
   end
 
-  def execute(payload, config) do
-    GenServer.cast(__MODULE__, {:execute, payload, config})
+  def execute(user, payload, config) do
+    GenServer.cast(__MODULE__, {:execute, user, payload, config})
   end
 
   # Server
 
-  def handle_cast({:execute, payload, config}, state) do
+  def handle_cast({:execute, user, payload, config}, service_id) do
     [api_key: key] = Application.get_env(:poselink, __MODULE__)
 
-    token = "cszs5WH4q_g:APA91bFagVHgHdN3KV4oivAGE_kXt_ROGgCVSWWajsOwdj-4khI1uuu-jB3iYmIHjGFaQetB-C1VFVkaInvkDhtCzPWwjmemecqQ1egKeHcpmBP8hRrZ0eaun0Kg8-N8b83oDMJ8peI4"
+    %{"gcm" => %{"token" => token}} =
+      UserServiceConfig
+      |> Repo.get_by!(user_id: user.id, service_id: service_id)
+      |> Map.get(:config)
+      |> Poison.decode!
+
+    %{"content" => message} = config
 
     GCM.push(key, [token],
       %{notification: %{
-          title: "hi",
-          body: "yo",
-          message: "hi",
+          title: "Posture Linking",
+          body: message,
+          message: message,
           sound: "default",
           icon: "default",
           color: "#FFFFFF"
         },
         data: %{
-          message: "hi"
+          message: message
         }
       }
     )
 
-    {:noreply, state}
+    {:noreply, service_id}
   end
 
 end

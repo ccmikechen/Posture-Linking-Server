@@ -1,7 +1,9 @@
 defmodule Poselink.TriggerSupervisor do
 
+  alias Poselink.TriggerService
+
   @trigger_services %{
-    1 => Poselink.TriggerService.ButtonTrigger
+    1 => TriggerService.ButtonTrigger
   }
 
   def start_link() do
