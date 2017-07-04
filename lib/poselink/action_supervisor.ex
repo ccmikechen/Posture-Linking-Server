@@ -3,7 +3,8 @@ defmodule Poselink.ActionSupervisor do
   alias Poselink.ActionService
 
   @action_services %{
-    2 => ActionService.NotificationAction
+    2 => ActionService.NotificationAction,
+    3 => ActionService.LineNotifyAction
   }
 
   def start_link() do

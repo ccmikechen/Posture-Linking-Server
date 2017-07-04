@@ -1,8 +1,11 @@
-defmodule Poselink.ActionService.NotificationAction do
+defmodule Poselink.ActionService.LineNotifyAction do
   use GenServer
 
   alias Poselink.Repo
   alias Poselink.UserServiceConfig
+
+  @url "https://notify-api.line.me/api/notify"
+  @options [ssl: [versions: [:"tlsv1.2"]], recv_timeout: 500]
 
   def start_link(service_id) do
     GenServer.start_link(__MODULE__, service_id, [name: __MODULE__])
@@ -13,9 +16,7 @@ defmodule Poselink.ActionService.NotificationAction do
   end
 
   def handle_cast({:execute, user, payload, config}, service_id) do
-    [api_key: key] = Application.get_env(:poselink, __MODULE__)
-
-    %{"gcm" => %{"token" => token}} =
+    %{"line_notify" => %{"token" => token}} =
       UserServiceConfig
       |> Repo.get_by!(user_id: user.id, service_id: service_id)
       |> Map.get(:config)
@@ -23,22 +24,18 @@ defmodule Poselink.ActionService.NotificationAction do
 
     %{"content" => message} = config
 
-    GCM.push(key, [token],
-      %{notification: %{
-          title: "Posture Linking",
-          body: message,
-          message: message,
-          sound: "default",
-          icon: "default",
-          color: "#FFFFFF"
-        },
-        data: %{
-          message: message
-        }
-      }
-    )
+    send_line_notify(message, token)
 
     {:noreply, service_id}
   end
 
+  defp send_line_notify(message, access_token) do
+    headers = [
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Authorization": "Bearer #{access_token}"
+    ]
+    body = "message=#{message}"
+
+    HTTPoison.post(@url, body, headers, @options)
+  end
 end

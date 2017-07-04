@@ -6,6 +6,8 @@ defmodule Poselink do
   def start(_type, _args) do
     import Supervisor.Spec
 
+    init()
+
     # Define workers and child supervisors to be supervised
     children = [
       # Start the Ecto repository
@@ -27,6 +29,12 @@ defmodule Poselink do
   # whenever the application is updated.
   def config_change(changed, _new, removed) do
     Poselink.Endpoint.config_change(changed, removed)
+    :ok
+  end
+
+  def init do
+    HTTPoison.start
+
     :ok
   end
 end

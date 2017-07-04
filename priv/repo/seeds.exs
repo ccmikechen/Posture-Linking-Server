@@ -56,6 +56,11 @@ action_services = [
     name: "notification",
     icon: "",
     classification: "smart phone"
+  },
+  %{
+    name: "line notify",
+    icon: "",
+    classification: "web service"
   }
 ]
 
@@ -66,7 +71,7 @@ combinations = [
       config: "{}"
     },
     action: %{
-      service: "notification",
+      service: "line notify",
       config: Poison.encode! %{
         content: "hello"
       }
