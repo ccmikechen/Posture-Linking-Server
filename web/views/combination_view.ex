@@ -5,6 +5,10 @@ defmodule Poselink.CombinationView do
     %{data: render_many(combinations, Poselink.CombinationView, "combination.json")}
   end
 
+  def render("show.json", %{combination: combination}) do
+    %{data: render_one(combination, Poselink.CombinationView, "combination.json")}
+  end
+
   def render("combination.json", %{combination: combination}) do
     %{
       id: combination.id,
