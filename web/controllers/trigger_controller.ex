@@ -11,7 +11,9 @@ defmodule Poselink.TriggerController do
   def trigger(conn, %{"service_id" => service_id, "payload" => payload}) do
     current_user = Guardian.Plug.current_resource(conn)
 
-    Poselink.TriggerServer.trigger(current_user.id, service_id, payload)
+    IO.inspect current_user
+
+    Poselink.ClientTriggerHandler.handle_trigger(current_user, service_id, payload)
 
     conn
     |> send_resp(200, "")
