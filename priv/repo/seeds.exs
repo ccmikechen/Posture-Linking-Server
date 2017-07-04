@@ -65,7 +65,7 @@ combinations = [
       }
     },
     user: "testuser",
-    description: "",
+    description: "push hello",
     status: 1
   },
   %{
@@ -80,7 +80,7 @@ combinations = [
       }
     },
     user: "testuser",
-    description: "",
+    description: "push man",
     status: 1
   },
   %{
@@ -95,7 +95,7 @@ combinations = [
       }
     },
     user: "testuser",
-    description: "",
+    description: "yo guys!",
     status: 1
   }
 ]
