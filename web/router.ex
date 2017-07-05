@@ -36,6 +36,7 @@ defmodule Poselink.Router do
   scope "/webhook", Poselink do
     pipe_through :api
 
+    get "/line/callback", LineMessagingController, :callback
     post "/line/callback", LineMessagingController, :callback
   end
 end
