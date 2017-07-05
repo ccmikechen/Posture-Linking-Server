@@ -25,8 +25,13 @@ defmodule Poselink.ClientTriggerHandler do
   defp load_trigger_services do
     [services: services] = Application.get_env(:poselink, TriggerService)
     Enum.reduce(services, %{}, fn {name, module}, acc ->
-      trigger_service = Repo.get_by(Service, name: name)
-      Map.put(acc, trigger_service.id, module)
+      case Repo.get_by(Service, name: name) do
+        nil ->
+          IO.puts "Service #{name} not found"
+          acc
+        trigger_service ->
+          Map.put(acc, trigger_service.id, module)
+      end
     end)
   end
 end

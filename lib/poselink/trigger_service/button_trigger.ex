@@ -1,6 +1,9 @@
 defmodule Poselink.TriggerService.ButtonTrigger do
   use GenServer
 
+  alias Poselink.Repo
+  alias Poselink.Combination
+
   def start_link(service_id) do
     GenServer.start_link(__MODULE__, service_id, [name: __MODULE__])
   end
@@ -10,11 +13,6 @@ defmodule Poselink.TriggerService.ButtonTrigger do
   end
 
   def handle_cast({:trigger, payload}, service_id) do
-    import Ecto.Query
-
-    alias Poselink.Repo
-    alias Poselink.Combination
-
     combination =
       Repo.get(Combination, payload["combination_id"])
       |> Repo.preload(:trigger)
@@ -22,6 +20,4 @@ defmodule Poselink.TriggerService.ButtonTrigger do
     Poselink.TriggerServer.trigger(combination.trigger, payload)
     {:noreply, service_id}
   end
-
-  
 end

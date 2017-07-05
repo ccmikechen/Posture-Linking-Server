@@ -7,10 +7,10 @@ defmodule Poselink.ActionService do
   def start_link do
     import Supervisor.Spec
 
-    children = Enum.map(load_action_services,
-      fn {id, service} ->
-        worker(service, [id])
-      end)
+    children =
+      load_action_services
+      |> Enum.filter(fn item -> not(is_nil(item)) end)
+      |> Enum.map(fn {id, service} -> worker(service, [id]) end)
 
     opts = [strategy: :one_for_one, name: Poselink.ActionService.Supervisor]
     Supervisor.start_link(children, opts)
@@ -20,8 +20,14 @@ defmodule Poselink.ActionService do
     [services: services] = Application.get_env(:poselink, __MODULE__)
     services
     |> Enum.map(fn {name, module} ->
-      action_service = Repo.get_by(Service, name: name)
-      {action_service.id, module}
+      case Repo.get_by(Service, name: name) do
+        nil ->
+          IO.puts "Service #{name} not found"
+          nil
+        action_service ->
+          {action_service.id, module}
+      end
+
     end)
   end
 end

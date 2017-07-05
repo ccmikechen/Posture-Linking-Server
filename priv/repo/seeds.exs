@@ -19,6 +19,7 @@ alias Poselink.Trigger
 alias Poselink.Action
 alias Poselink.Combination
 alias Poselink.User
+alias Poselink.UserServiceConfig
 
 # Initial constants
 
@@ -41,7 +42,8 @@ classifications = [
   "device",
   "web service",
   "open data",
-  "developer"
+  "developer",
+  "poselink"
 ]
 
 trigger_services = [
@@ -49,8 +51,14 @@ trigger_services = [
     name: "button",
     icon: "",
     classification: "smart phone"
+  },
+  %{
+    name: "timer",
+    icon: "",
+    classification: "poselink"
   }
 ]
+
 action_services = [
   %{
     name: "notification",
@@ -97,11 +105,11 @@ combinations = [
   },
   %{
     trigger: %{
-      service: "button",
+      service: "timer",
       config: "{}"
     },
     action: %{
-      service: "notification",
+      service: "line notify",
       config: Poison.encode! %{
         content: "yo guys!"
       }
@@ -109,6 +117,33 @@ combinations = [
     user: "testuser",
     description: "yo guys!",
     status: 1
+  }
+]
+
+user_service_configs = [
+  %{
+    user: "testuser",
+    service: %{
+      type: 2,
+      name: "notification"
+    },
+    config: %{
+      gcm: %{
+        token: "d6CeRvb70qA:APA91bFTXsXSFrTkCrtbsJ2uwNmFHroHvQo3BBDvq60a133QrLmcVOmwpLS-5fqfN7kZaq3vkmWfBaaI-HBnIxCAV8yMTt6O93wB4nQOBWoz_f7jyK5IPkqN4uc-ChQPGXek4GkLj9bz"
+      }
+    }
+  },
+  %{
+    user: "testuser",
+    service: %{
+      type: 2,
+      name: "line notify"
+    },
+    config: %{
+      line_notify: %{
+        token: "kemONXdmtfwbwlZgv6CwFB2799DOzwyvmI8iFh53AEi"
+      }
+    }
   }
 ]
 
@@ -217,5 +252,26 @@ end)
   Repo.insert(combination,
     on_conflict: :replace_all,
     conflict_target: [:user_id, :trigger_id, :action_id]
+  )
+end)
+
+user_service_configs
+|> Enum.each(fn config ->
+  service =
+    Repo.get_by(Service,
+      type: config.service.type,
+      name: config.service.name
+    )
+  user = Repo.get_by(User, username: config.user)
+
+  user_service_config =
+    %UserServiceConfig{
+      user_id: user.id,
+      service_id: service.id,
+      config: Poison.encode!(config.config)
+    }
+  Repo.insert(user_service_config,
+    on_conflict: :replace_all,
+    conflict_target: [:user_id, :service_id]
   )
 end)

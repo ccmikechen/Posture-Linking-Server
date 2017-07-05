@@ -29,6 +29,13 @@ defmodule Poselink.Router do
     patch "/user_service_configs", UserServiceConfigController, :update
     post "/trigger/trigger", TriggerController, :trigger
 
+
     post "/line_notify/callback", LineNotifyController, :callback
+  end
+
+  scope "/webhook", Poselink do
+    pipe_through :api
+
+    post "/line/callback", LineMessagingController, :callback
   end
 end
