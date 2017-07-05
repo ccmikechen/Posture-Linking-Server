@@ -7,10 +7,6 @@ defmodule Poselink.Router do
     plug Guardian.Plug.LoadResource
   end
 
-  scope "/.well-known", Poselink do
-    get "/acme-challenge/:challenge", AcmeChallengeController, :show
-  end
-
   scope "/api", Poselink do
     pipe_through :api
 
