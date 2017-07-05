@@ -31,7 +31,9 @@ config :poselink, Poselink.Repo,
   hostname: "localhost",
   pool_size: 10
 
-import_config "dev.secret.exs"
-
 config :guardian, Guardian,
   secret_key: "5CQ3u9y8nbn5Q8B1kwBwOslSZ8dirAR4Sn/eB7r5OH9Y9r9H83/v0Mvb93QtSM4N"
+
+import_config "dev.secret.exs"
+import_config "service.exs"
+

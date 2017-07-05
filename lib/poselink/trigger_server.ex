@@ -5,7 +5,7 @@ defmodule Poselink.TriggerServer do
   alias Poselink.Combination
   alias Poselink.Trigger
 
-  def start_link() do
+  def start_link do
     GenServer.start_link(__MODULE__, nil, [name: __MODULE__])
   end
 

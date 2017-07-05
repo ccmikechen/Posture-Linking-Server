@@ -1,18 +1,11 @@
 defmodule Poselink.ActionSupervisor do
 
-  alias Poselink.ActionService
-
-  @action_services %{
-    2 => ActionService.NotificationAction,
-    3 => ActionService.LineNotifyAction
-  }
-
   def start_link() do
     import Supervisor.Spec
 
     children = [
-      worker(Poselink.ActionServer, [@action_services]),
-      supervisor(Poselink.ActionService, [@action_services])
+      worker(Poselink.ActionServer, []),
+      supervisor(Poselink.ActionService, [])
     ]
 
     opts = [strategy: :one_for_one, name: __MODULE__]

@@ -11,8 +11,8 @@ defmodule Poselink.TriggerSupervisor do
 
     children = [
       worker(Poselink.TriggerServer, []),
-      worker(Poselink.ClientTriggerHandler, [@trigger_services]),
-      supervisor(Poselink.TriggerService, [@trigger_services])
+      worker(Poselink.ClientTriggerHandler, []),
+      supervisor(Poselink.TriggerService, [])
     ]
 
     opts = [strategy: :one_for_one, name: __MODULE__]

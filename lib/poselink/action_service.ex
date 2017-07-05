@@ -1,16 +1,27 @@
 defmodule Poselink.ActionService do
 
-  def start_link(action_services) do
-    import Supervisor.Spec
-    alias Poselink.ActionService
+  alias Poselink.Repo
+  alias Poselink.Service
+  alias Poselink.ActionService
 
-    children =
-      action_services
-      |> Enum.to_list
-      |> Enum.map(fn {id, service} -> worker(service, [id]) end)
+  def start_link do
+    import Supervisor.Spec
+
+    children = Enum.map(load_action_services,
+      fn {id, service} ->
+        worker(service, [id])
+      end)
 
     opts = [strategy: :one_for_one, name: Poselink.ActionService.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
+  defp load_action_services do
+    [services: services] = Application.get_env(:poselink, __MODULE__)
+    services
+    |> Enum.map(fn {name, module} ->
+      action_service = Repo.get_by(Service, name: name)
+      {action_service.id, module}
+    end)
+  end
 end

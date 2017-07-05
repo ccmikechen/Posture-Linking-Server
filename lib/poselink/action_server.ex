@@ -1,7 +1,13 @@
 defmodule Poselink.ActionServer do
   use GenServer
 
-  def start_link(action_services) do
+  alias Poselink.Repo
+  alias Poselink.Service
+  alias Poselink.ActionService
+
+  def start_link do
+    action_services = load_action_services()
+
     GenServer.start_link(__MODULE__, action_services, [name: __MODULE__])
   end
 
@@ -12,9 +18,6 @@ defmodule Poselink.ActionServer do
   # Server
 
   def handle_cast({:execute, user, action, payload}, action_services) do
-    alias Poselink.Repo
-    alias Poselink.Service
-
     service = Repo.get_by(Service, id: action.service_id)
     config = Poison.decode!(action.config)
 
@@ -26,4 +29,11 @@ defmodule Poselink.ActionServer do
     {:noreply, action_services}
   end
 
+  defp load_action_services do
+    [services: services] = Application.get_env(:poselink, ActionService)
+    Enum.reduce(services, %{}, fn {name, module}, acc ->
+      action_service = Repo.get_by(Service, name: name)
+      Map.put(acc, action_service.id, module)
+    end)
+  end
 end
