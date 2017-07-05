@@ -12,7 +12,8 @@ defmodule Poselink.UserServiceConfigView do
   def render("user_service_config.json", %{user_service_config: user_service_config}) do
     %{
       id: user_service_config.id,
-      config: Poison.decode!(user_service_config.config)
+      config: Poison.decode!(user_service_config.config),
+      status: user_service_config.status
     }
   end
 end

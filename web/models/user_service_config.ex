@@ -3,6 +3,7 @@ defmodule Poselink.UserServiceConfig do
 
   schema "user_service_configs" do
     field :config, :string
+    field :status, :string
     belongs_to :user, Poselink.User
     belongs_to :service, Poselink.Service
 
@@ -14,7 +15,7 @@ defmodule Poselink.UserServiceConfig do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:config])
-    |> validate_required([:config])
+    |> cast(params, [:config, :status])
+    |> validate_required([:config, :status])
   end
 end

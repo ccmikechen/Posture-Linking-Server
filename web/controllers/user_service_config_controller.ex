@@ -19,7 +19,8 @@ defmodule Poselink.UserServiceConfigController do
       %UserServiceConfig{
         user_id: current_user.id,
         service_id: service_id,
-        config: Poison.encode!(config)
+        config: Poison.encode!(config),
+        status: "connected"
       }
       |> UserServiceConfig.changeset
 
@@ -53,7 +54,7 @@ defmodule Poselink.UserServiceConfigController do
     render(conn, "show.json", user_service_config: user_service_config)
   end
 
-  def update(conn, %{"service_id" => service_id, "config" => config}) do
+  def update(conn, %{"service_id" => service_id, "config" => config, "status" => status}) do
     current_user = Guardian.Plug.current_resource(conn)
     user_service_config =
       Repo.get_by!(UserServiceConfig,
@@ -62,7 +63,7 @@ defmodule Poselink.UserServiceConfigController do
 
     changeset =
       UserServiceConfig.changeset(
-        user_service_config, %{"config" => Poison.encode!(config)})
+        user_service_config, %{"config" => Poison.encode!(config), "status" => status})
 
     case Repo.update(changeset) do
       {:ok, user_service_config} ->

@@ -267,6 +267,7 @@ user_service_configs
   user_service_config =
     %UserServiceConfig{
       user_id: user.id,
+      status: "connected",
       service_id: service.id,
       config: Poison.encode!(config.config)
     }
