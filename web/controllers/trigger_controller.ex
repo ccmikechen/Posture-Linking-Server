@@ -16,6 +16,6 @@ defmodule Poselink.TriggerController do
     Poselink.ClientTriggerHandler.handle_trigger(current_user, service_id, payload)
 
     conn
-    |> send_resp(200, "")
+    |> send_resp(200, "{}")
   end
 end
