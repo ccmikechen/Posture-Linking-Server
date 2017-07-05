@@ -56,6 +56,11 @@ trigger_services = [
     name: "timer",
     icon: "",
     classification: "poselink"
+  },
+  %{
+    name: "line messaging",
+    icon: "",
+    classification: "web service"
   }
 ]
 
@@ -142,6 +147,18 @@ user_service_configs = [
     config: %{
       line_notify: %{
         token: "kemONXdmtfwbwlZgv6CwFB2799DOzwyvmI8iFh53AEi"
+      }
+    }
+  },
+  %{
+    user: "testuser",
+    service: %{
+      type: 1,
+      name: "line messaging"
+    },
+    config: %{
+      line_messaging: %{
+        user_id: "U85020f513ece9f40e777c37b2c4d4b3c"
       }
     }
   }

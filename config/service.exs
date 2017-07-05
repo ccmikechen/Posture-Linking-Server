@@ -6,7 +6,8 @@ alias Poselink.ActionService
 config :poselink, TriggerService,
   services: [
     {"button", TriggerService.ButtonTrigger},
-    {"timer", TriggerService.TimerTrigger}
+    {"timer", TriggerService.TimerTrigger},
+    {"line messaging", TriggerService.LineMessagingTrigger}
   ]
 
 config :poselink, ActionService,
