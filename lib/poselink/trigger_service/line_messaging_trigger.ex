@@ -4,6 +4,7 @@ defmodule Poselink.TriggerService.LineMessagingTrigger do
   import Ecto.Query
 
   alias Poselink.Repo
+  alias Poselink.Trigger
   alias Poselink.Combination
   alias Poselink.UserServiceConfig
 
@@ -35,10 +36,14 @@ defmodule Poselink.TriggerService.LineMessagingTrigger do
       payload = %{"message" => text, "reply_token" => reply_token}
       query =
         from t in Trigger,
-      where: t.user_id == ^user.id and t.service_id == ^service_id
+      join: c in Combination, on: [trigger_id: t.id],
+      where: c.user_id == ^user.id and t.service_id == ^service_id
+
       query
       |> Repo.all()
-      |> Poselink.TriggerServer.trigger(payload)
+      |> Enum.each(fn trigger ->
+        Poselink.TriggerServer.trigger(trigger, payload)
+      end)
     end)
 
     {:noreply, service_id}
@@ -66,7 +71,7 @@ defmodule Poselink.TriggerService.LineMessagingTrigger do
     Repo.all(query)
     |> Enum.filter(fn usc ->
       case usc do
-        %{"config" => config} ->
+        %{config: config} ->
           case Poison.decode!(config) do
             %{"line_messaging" => %{"user_id" => line_user_id}} ->
               true
@@ -77,6 +82,6 @@ defmodule Poselink.TriggerService.LineMessagingTrigger do
           false
       end
     end)
-    |> Enum.map(fn %{"user" => user} -> user end)
+    |> Enum.map(fn %{user: user} -> user end)
   end
 end
