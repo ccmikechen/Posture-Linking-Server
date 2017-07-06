@@ -3,7 +3,6 @@ defmodule Poselink.TriggerServer do
 
   alias Poselink.Repo
   alias Poselink.Combination
-  alias Poselink.Trigger
 
   def start_link do
     GenServer.start_link(__MODULE__, nil, [name: __MODULE__])
@@ -27,7 +26,7 @@ defmodule Poselink.TriggerServer do
     combinations
     |> Enum.each(fn combination ->
       if combination.status == 1 do
-        IO.puts "#{inspect(self)}: Combination #{combination.id} has been triggered"
+        IO.puts "#{inspect(self())}: Combination #{combination.id} has been triggered"
         Poselink.ActionServer.execute(
           combination.user,
           combination.action,

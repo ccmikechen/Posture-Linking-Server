@@ -1,7 +1,5 @@
 defmodule Poselink.TriggerSupervisor do
 
-  alias Poselink.TriggerService
-
   def start_link() do
     import Supervisor.Spec
 

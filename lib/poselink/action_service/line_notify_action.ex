@@ -24,7 +24,9 @@ defmodule Poselink.ActionService.LineNotifyAction do
 
     %{"content" => message} = config
 
-    send_line_notify(message, token)
+    message
+    |> Poselink.ActionService.combine_message_and_payload(payload)
+    |> send_line_notify(token)
 
     {:noreply, service_id}
   end

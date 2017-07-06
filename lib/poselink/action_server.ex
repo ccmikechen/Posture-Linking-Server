@@ -21,7 +21,7 @@ defmodule Poselink.ActionServer do
     service = Repo.get_by(Service, id: action.service_id)
     config = Poison.decode!(action.config)
 
-    IO.puts "#{inspect(self)}: Service #{service.id} has been executed"
+    IO.puts "#{inspect(self())}: Service #{service.id} has been executed"
 
     action_service = action_services[service.id]
     action_service.execute(user, payload, config)

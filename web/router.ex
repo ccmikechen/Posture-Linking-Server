@@ -10,8 +10,7 @@ defmodule Poselink.Router do
   scope "/api", Poselink do
     pipe_through :api
 
-    get "/", PingController, :show
-
+    get "/ping", PingController, :show
     post "/sessions", SessionController, :create
     delete "/sessions", SessionController, :delete
     post "/sessions/refresh", SessionController, :refresh
@@ -20,11 +19,10 @@ defmodule Poselink.Router do
     resources "/services", ServiceController, only: [:index]
     resources "/combinations", CombinationController, except: [:show]
     resources "/user_service_configs",
-      UserServiceConfigController, only: [:index, :show, :create]
+      UserServiceConfigController, only: [:index, :create]
     get "/user_service_configs", UserServiceConfigController, :show
     patch "/user_service_configs", UserServiceConfigController, :update
     post "/trigger/trigger", TriggerController, :trigger
-
 
     post "/line_notify/callback", LineNotifyController, :callback
   end

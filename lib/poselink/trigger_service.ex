@@ -7,7 +7,7 @@ defmodule Poselink.TriggerService do
     import Supervisor.Spec
 
     children =
-      load_trigger_services
+      load_trigger_services()
       |> Enum.filter(fn item -> not(is_nil(item)) end)
       |> Enum.map(fn {id, service} -> worker(service, [id]) end)
 
@@ -19,8 +19,6 @@ defmodule Poselink.TriggerService do
     [services: services] = Application.get_env(:poselink, __MODULE__)
     services
     |> Enum.map(fn {name, module} ->
-      trigger_service = Repo.get_by(Service, name: name)
-
       case Repo.get_by(Service, name: name) do
         nil ->
           IO.puts "Service #{name} not found"

@@ -1,10 +1,6 @@
 defmodule Poselink.TriggerController do
   use Poselink.Web, :controller
 
-  alias Poselink.Repo
-  alias Pselink.Trigger
-  alias Poselink.User
-
   plug Guardian.Plug.EnsureAuthenticated,
     handler: Poselink.SessionController
 
@@ -13,7 +9,11 @@ defmodule Poselink.TriggerController do
 
     IO.inspect current_user
 
-    Poselink.ClientTriggerHandler.handle_trigger(current_user, service_id, payload)
+    Poselink.ClientTriggerHandler.handle_trigger(
+      current_user,
+      service_id,
+      payload
+    )
 
     conn
     |> send_resp(200, "{}")

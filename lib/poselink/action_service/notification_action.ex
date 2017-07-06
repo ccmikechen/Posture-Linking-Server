@@ -14,7 +14,7 @@ defmodule Poselink.ActionService.NotificationAction do
 
   def handle_cast({:execute, user, payload, config}, service_id) do
     [api_key: key] = Application.get_env(:poselink, __MODULE__)
-    
+
     %{"gcm" => %{"token" => token}} =
       UserServiceConfig
       |> Repo.get_by!(user_id: user.id, service_id: service_id)
@@ -22,12 +22,14 @@ defmodule Poselink.ActionService.NotificationAction do
       |> Poison.decode!
     %{"content" => message} = config
 
-    send_notification(key, token, message)
+    message
+    |> Poselink.ActionService.combine_message_and_payload(payload)
+    |> send_notification(key, token)
 
     {:noreply, service_id}
   end
 
-  defp send_notification(key, token, message) do
+  defp send_notification(message, key, token) do
     GCM.push(key, [token],
       %{notification: %{
            title: "Posture Linking",

@@ -16,10 +16,6 @@ defmodule Poselink.TriggerService.LineMessagingTrigger do
     GenServer.cast(__MODULE__, {:event, event})
   end
 
-  def trigger(user, payload) do
-    GenServer.cast(__MODULE__, {:trigger, payload})
-  end
-
   def handle_cast({:event,
                    %{"type" => "message",
                      "source" => %{
@@ -49,16 +45,7 @@ defmodule Poselink.TriggerService.LineMessagingTrigger do
     {:noreply, service_id}
   end
 
-  def handle_cast({:event, event = %{"type" => "beacon"}, user}, service_id) do
-    {:noreply, service_id}
-  end
-
-  def handle_cast({:trigger, payload}, service_id) do
-    combination =
-      Repo.get(Combination, payload["combination_id"])
-      |> Repo.preload(:trigger)
-
-    Poselink.TriggerServer.trigger(combination.trigger, payload)
+  def handle_cast({:event, _event = %{"type" => "beacon"}, _user}, service_id) do
     {:noreply, service_id}
   end
 
@@ -73,7 +60,7 @@ defmodule Poselink.TriggerService.LineMessagingTrigger do
       case usc do
         %{config: config} ->
           case Poison.decode!(config) do
-            %{"line_messaging" => %{"user_id" => line_user_id}} ->
+            %{"line_messaging" => %{"user_id" => ^line_user_id}} ->
               true
             _ ->
               false
