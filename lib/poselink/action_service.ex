@@ -19,7 +19,7 @@ defmodule Poselink.ActionService do
     payload
     |> Enum.to_list()
     |> Enum.reduce(message, fn {key, value}, acc ->
-      String.replace(acc, "{{#{key}}}", value)
+      String.replace(acc, "{{#{key}}}", "#{value}")
     end)
   end
 
