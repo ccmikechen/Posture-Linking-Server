@@ -3,7 +3,8 @@ defmodule Poselink.Posture do
 
   schema "postures" do
     field :name, :string
-    belongs_to :classification, Poselink.Classification
+    belongs_to :classification, Poselink.PostureClassification
+    field :type, :integer
 
     timestamps()
   end
@@ -13,7 +14,7 @@ defmodule Poselink.Posture do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name])
-    |> validate_required([:name])
+    |> cast(params, [:name, :type])
+    |> validate_required([:name, :type])
   end
 end

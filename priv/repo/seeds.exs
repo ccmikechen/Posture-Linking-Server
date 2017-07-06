@@ -293,3 +293,5 @@ user_service_configs
     conflict_target: [:user_id, :service_id]
   )
 end)
+
+Code.load_file("priv/repo/posture_seeds.exs")
