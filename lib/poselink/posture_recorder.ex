@@ -46,8 +46,8 @@ defmodule Poselink.PostureRecorder do
       %PostureRecord{
         recorder_user_id: user.id,
         posture_id: posture.id,
-        height: state.config["height"],
-        weight: state.config["weight"],
+        height: parseFloat(state.config["height"]),
+        weight: parseFloat(state.config["weight"]),
         insole_size: state.config["insoleSize"],
         status: "available"
       }
@@ -58,28 +58,33 @@ defmodule Poselink.PostureRecorder do
       record_detail =
         %PostureRecordDetail{
           posture_record_id: inserted_posture_record,
-          sequence_number: data["sequenceNumber"],
-          left_insole_acc_x: data["insole"]["left"]["x"],
-          left_insole_acc_y: data["insole"]["left"]["y"],
-          left_insole_acc_z: data["insole"]["left"]["z"],
-          left_insole_pressure_a: data["insole"]["left"]["a"],
-          left_insole_pressure_b: data["insole"]["left"]["b"],
-          left_insole_pressure_c: data["insole"]["left"]["c"],
-          left_insole_pressure_d: data["insole"]["left"]["d"],
-          right_insole_acc_x: data["insole"]["right"]["x"],
-          right_insole_acc_y: data["insole"]["right"]["y"],
-          right_insole_acc_z: data["insole"]["right"]["z"],
-          right_insole_pressure_a: data["insole"]["right"]["a"],
-          right_insole_pressure_b: data["insole"]["right"]["b"],
-          right_insole_pressure_c: data["insole"]["right"]["c"],
-          right_insole_pressure_d: data["insole"]["right"]["d"],
-          band_acc_x: data["band"]["x"],
-          band_acc_y: data["band"]["y"],
-          band_acc_z: data["band"]["z"],
+          sequence_number: parseFloat(data["sequenceNumber"]),
+          left_insole_acc_x: parseFloat(data["insole"]["left"]["x"]),
+          left_insole_acc_y: parseFloat(data["insole"]["left"]["y"]),
+          left_insole_acc_z: parseFloat(data["insole"]["left"]["z"]),
+          left_insole_pressure_a: parseFloat(data["insole"]["left"]["a"]),
+          left_insole_pressure_b: parseFloat(data["insole"]["left"]["b"]),
+          left_insole_pressure_c: parseFloat(data["insole"]["left"]["c"]),
+          left_insole_pressure_d: parseFloat(data["insole"]["left"]["d"]),
+          right_insole_acc_x: parseFloat(data["insole"]["right"]["x"]),
+          right_insole_acc_y: parseFloat(data["insole"]["right"]["y"]),
+          right_insole_acc_z: parseFloat(data["insole"]["right"]["z"]),
+          right_insole_pressure_a: parseFloat(data["insole"]["right"]["a"]),
+          right_insole_pressure_b: parseFloat(data["insole"]["right"]["b"]),
+          right_insole_pressure_c: parseFloat(data["insole"]["right"]["c"]),
+          right_insole_pressure_d: parseFloat(data["insole"]["right"]["d"]),
+          band_acc_x: parseFloat(data["band"]["x"]),
+          band_acc_y: parseFloat(data["band"]["y"]),
+          band_acc_z: parseFloat(data["band"]["z"])
         }
       Repo.insert(record_detail)
     end)
 
     {:noreply, nil}
+  end
+
+  defp parseFloat(value) do
+    {float_val, _} = Float.parse(value)
+    float_val
   end
 end
