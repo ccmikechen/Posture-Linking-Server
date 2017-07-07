@@ -17,4 +17,11 @@ defmodule Poselink.PostureView do
       type: posture.type
     }
   end
+
+  def render("dataset.json", %{dataset: {data, type}}) do
+    %{
+      data: data,
+      type: type
+    }
+  end
 end
