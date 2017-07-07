@@ -23,6 +23,7 @@ defmodule Poselink.Router do
     get "/user_service_configs", UserServiceConfigController, :show
     patch "/user_service_configs", UserServiceConfigController, :update
     post "/trigger/trigger", TriggerController, :trigger
+    get "/posture/postures", PostureController, :index
 
     post "/line_notify/callback", LineNotifyController, :callback
   end

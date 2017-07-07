@@ -23,7 +23,7 @@ defmodule Poselink.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
 
-  def connect(%{"guardian_token" => jwt} = params, socket) do
+  def connect(%{"guardian_token" => jwt}, socket) do
     case sign_in(socket, jwt) do
       {:ok, authed_socket, guardian_params} ->
         {:ok, authed_socket}
