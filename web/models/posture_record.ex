@@ -7,7 +7,7 @@ defmodule Poselink.PostureRecord do
     field :insole_size, :string
     field :status, :string
     belongs_to :posture, Poselink.Posture
-    belongs_to :recorder_user, Poselink.RecorderUser
+    belongs_to :recorder_user, Poselink.User
 
     timestamps()
   end

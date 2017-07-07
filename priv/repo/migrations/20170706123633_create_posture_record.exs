@@ -7,12 +7,12 @@ defmodule Poselink.Repo.Migrations.CreatePostureRecord do
       add :weight, :float, null: false
       add :insole_size, :string, null: false
       add :status, :string, null: false
-      add :posture, references(:postures, on_delete: :nothing)
-      add :recorder_user, references(:users, on_delete: :nothing)
+      add :posture_id, references(:postures, on_delete: :nothing)
+      add :recorder_user_id, references(:users, on_delete: :nothing)
 
       timestamps()
     end
-    create index(:posture_records, [:posture])
-    create index(:posture_records, [:recorder_user])
+    create index(:posture_records, [:posture_id])
+    create index(:posture_records, [:recorder_user_id])
   end
 end

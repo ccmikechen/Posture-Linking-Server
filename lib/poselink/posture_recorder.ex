@@ -44,8 +44,8 @@ defmodule Poselink.PostureRecorder do
 
     posture_record =
       %PostureRecord{
-        recorder_user: user,
-        posture: posture,
+        recorder_user_id: user.id,
+        posture_id: posture.id,
         height: state.config["height"],
         weight: state.config["weight"],
         insole_size: state.config["insoleSize"],
@@ -57,7 +57,7 @@ defmodule Poselink.PostureRecorder do
     |> Enum.each(fn data ->
       record_detail =
         %PostureRecordDetail{
-          posture_record: inserted_posture_record,
+          posture_record_id: inserted_posture_record,
           sequence_number: data["sequenceNumber"],
           left_insole_acc_x: data["insole"]["left"]["x"],
           left_insole_acc_y: data["insole"]["left"]["y"],
