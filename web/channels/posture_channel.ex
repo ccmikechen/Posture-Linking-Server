@@ -3,6 +3,8 @@ defmodule Poselink.PostureChannel do
 
   import Guardian.Phoenix.Socket
 
+  alias Poselink.PostureRecorder
+
   def join("posture:record", %{"guardian_token" => token}, socket) do
     case sign_in(socket, token) do
       {:ok, authed_socket , _guardian_params} ->
@@ -21,14 +23,23 @@ defmodule Poselink.PostureChannel do
   end
 
   def handle_in("start", config, socket) do
+    user = current_resource(socket)
+    PostureRecorder.start_link(user.id, config)
 
+    {:noreply, socket}
   end
 
   def handle_in("new_data", data, socket) do
+    user = current_resource(socket)
+    PostureRecorder.push_data(user.id, data)
 
+    {:noreply, socket}
   end
 
   def handle_in("save", _payload, socket) do
+    user = current_resource(socket)
+    PostureRecorder.save(user.id)
 
+    {:noreply, socket}
   end
 end

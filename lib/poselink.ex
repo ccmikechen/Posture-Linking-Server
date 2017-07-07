@@ -16,7 +16,8 @@ defmodule Poselink do
       supervisor(Poselink.Endpoint, []),
       # Start the Trigger and Action
       supervisor(Poselink.TriggerSupervisor, []),
-      supervisor(Poselink.ActionSupervisor, [])
+      supervisor(Poselink.ActionSupervisor, []),
+      worker(Poselink.PostureRecordersServer, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
