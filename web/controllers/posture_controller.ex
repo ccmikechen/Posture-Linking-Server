@@ -26,8 +26,12 @@ defmodule Poselink.PostureController do
     |> Enum.map(fn record ->
       load_record(record)
     end)
+    |> Enum.filter(fn records ->
+      records != []
+    end)
+    |> List.flatten()
     |> Enum.reduce({[], []}, fn {data, type}, {acc_data, acc_type} ->
-      {acc_data ++ data, acc_type ++ type}
+      {[data | acc_data], [type | acc_type]}
     end)
   end
 
