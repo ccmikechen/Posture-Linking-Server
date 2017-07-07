@@ -48,7 +48,7 @@ def build_posture_model(data_list,
     model = posture_model.create_posture_model(rows, cols, classes)
 
     model.fit(train_data, train_type, batch_size=batch_size, epochs=nb_epoch,
-              verbose=1, validation_data=(test_data, test_type))
+               verbose=1, validation_data=(test_data, test_type))
 
     score = model.evaluate(test_data, test_type, verbose=0)
     print('Test score:', score[0])
@@ -67,7 +67,8 @@ def build_posture_model(data_list,
     for i in range(num_output):
         pred_node_names[i] = output_node_names_of_final_network + str(i)
         pred[i] = tf.identity(model.output[i], name=pred_node_names[i])
-        print('Output nodes names are:', pred_node_names)
+
+    print('Output nodes names are:', pred_node_names)
 
     # Write Graph
     output_graph_path = osp.join(model_path, output_graph_name)
