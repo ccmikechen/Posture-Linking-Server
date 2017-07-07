@@ -28,6 +28,10 @@ defmodule Poselink.PostureRecorder do
   def save(user_id) do
     pid = PostureRecordersServer.get_recorder(user_id)
     GenServer.cast(pid, :save)
+  end
+
+  def stop(user_id) do
+    pid = PostureRecordersServer.get_recorder(user_id)
     GenServer.stop(pid)
     PostureRecordersServer.delete_recorder(user_id)
   end
@@ -54,11 +58,11 @@ defmodule Poselink.PostureRecorder do
     inserted_posture_record = Repo.insert!(posture_record)
 
     state.data
-    |> Enum.each(fn data ->
+    |> Enum.each(fn %{"data" => data, "sequenceNumber" => sequence_number} ->
       record_detail =
         %PostureRecordDetail{
-          posture_record_id: inserted_posture_record,
-          sequence_number: parseFloat(data["sequenceNumber"]),
+          posture_record_id: inserted_posture_record.id,
+          sequence_number: sequence_number,
           left_insole_acc_x: parseFloat(data["insole"]["left"]["x"]),
           left_insole_acc_y: parseFloat(data["insole"]["left"]["y"]),
           left_insole_acc_z: parseFloat(data["insole"]["left"]["z"]),
@@ -73,9 +77,9 @@ defmodule Poselink.PostureRecorder do
           right_insole_pressure_b: parseFloat(data["insole"]["right"]["b"]),
           right_insole_pressure_c: parseFloat(data["insole"]["right"]["c"]),
           right_insole_pressure_d: parseFloat(data["insole"]["right"]["d"]),
-          band_acc_x: parseFloat(data["band"]["x"]),
-          band_acc_y: parseFloat(data["band"]["y"]),
-          band_acc_z: parseFloat(data["band"]["z"])
+          band_acc_x: parseFloat(data["band"]["acc"]["x"]),
+          band_acc_y: parseFloat(data["band"]["acc"]["y"]),
+          band_acc_z: parseFloat(data["band"]["acc"]["z"])
         }
       Repo.insert(record_detail)
     end)
@@ -84,7 +88,6 @@ defmodule Poselink.PostureRecorder do
   end
 
   defp parseFloat(value) do
-    {float_val, _} = Float.parse(value)
-    float_val
+    value / 1
   end
 end

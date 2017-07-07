@@ -42,4 +42,11 @@ defmodule Poselink.PostureChannel do
 
     {:noreply, socket}
   end
+
+  def handle_in("stop", _payload, socket) do
+    user = current_resource(socket)
+    PostureRecorder.stop(user.id)
+
+    {:noreply, socket}
+  end
 end
