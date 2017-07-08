@@ -1,9 +1,12 @@
 defmodule Poselink.PostureController do
   use Poselink.Web, :controller
 
+  import Ecto.Query
+
   alias Poselink.Posture
   alias Poselink.PostureRecord
   alias Poselink.PostureRecordDetail
+  alias Poselink.PostureModel
 
   plug Guardian.Plug.EnsureAuthenticated,
     handler: Poselink.SessionController
@@ -20,11 +23,28 @@ defmodule Poselink.PostureController do
     render(conn, "dataset.json", dataset: dataset)
   end
 
-  def build(conn, _params) do
+  def build(conn, %{"description" => description}) do
     dataset = load_all_posture_data()
-    graph_path = Poselink.PostureModelBuilder.build(dataset)
+    graph_path = Poselink.PostureModelBuilder.build(dataset, description)
+
+    new_model = %PostureModel{
+      path: graph_path,
+      description: description,
+      status: "available"
+    }
+    Repo.insert(new_model)
 
     render(conn, "build.json", graph_path: graph_path)
+  end
+
+  def model(conn, _params) do
+    lastest_model =
+      from(m in PostureModel,
+        where: m.status == "available")
+    |> last()
+    |> Repo.one()
+
+    send_file(conn, 200, model_path: lastest_model.path)
   end
 
   defp load_all_posture_data do

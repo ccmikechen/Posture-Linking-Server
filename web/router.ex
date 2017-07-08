@@ -25,6 +25,8 @@ defmodule Poselink.Router do
     post "/trigger/trigger", TriggerController, :trigger
     get "/posture/postures", PostureController, :index
     get "/posture/dataset", PostureController, :dataset
+    get "/posture/model", PostureController, :model
+    post "/posture/model/build", PostureController, :build
 
     post "/line_notify/callback", LineNotifyController, :callback
   end

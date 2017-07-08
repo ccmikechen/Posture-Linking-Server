@@ -18,7 +18,6 @@ defmodule Poselink.PostureModelBuilder do
           data, type, {@rows, @cols}, classes, @model_path
         ])
 
-    IO.puts "Output Graph Path: #{graph_path}"
     graph_path
   end
 end

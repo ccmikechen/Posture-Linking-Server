@@ -21,5 +21,5 @@ data =
 
 type = ListHelper.duplst(1, 10)
 
-{:ok, pid} = Python.start_link(python_path: "python/")
-Python.call(pid, "poselink", "build_posture_model", [data, type])
+{:ok, pid} = Python.start_link(python_path: "python/", python: "python2")
+Python.call(pid, "poselink", "build_posture_model", [data, type, {17, 16}, 4, "./test/models/"])
