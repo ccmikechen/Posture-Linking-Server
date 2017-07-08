@@ -24,4 +24,10 @@ defmodule Poselink.PostureView do
       type: type
     }
   end
+
+  def render("build.json", %{graph_path: graph_path}) do
+    %{
+      path: graph_path
+    }
+  end
 end

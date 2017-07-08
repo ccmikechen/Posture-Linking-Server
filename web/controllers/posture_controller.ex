@@ -20,6 +20,13 @@ defmodule Poselink.PostureController do
     render(conn, "dataset.json", dataset: dataset)
   end
 
+  def build(conn, _params) do
+    dataset = load_all_posture_data()
+    graph_path = Poselink.PostureModelBuilder.build(dataset)
+
+    render(conn, "build.json", graph_path: graph_path)
+  end
+
   defp load_all_posture_data do
     records = Poselink.PostureRecord |> Repo.all() |> Repo.preload(:posture)
     records

@@ -13,6 +13,7 @@ import posture_model
 
 import os
 import os.path as osp
+import time
 
 sess = tf.Session()
 K.set_session(sess)
@@ -22,10 +23,12 @@ nb_epoch = 12
 
 def build_posture_model(data_list,
                         type_list,
-                        dimensions=(17, 16),
-                        classes=31,
-                        model_path="./models/tensorflow_model/",
-                        output_graph_name="output_graph.pb"):
+                        dimensions,
+                        classes,
+                        model_path="./models/tensorflow_model/"):
+    current_time = int(time.time())
+    output_graph_name = "%d.pb" % (current_time)
+
     (rows, cols) = dimensions
 
     all_data = np.array(data_list, dtype="float")
