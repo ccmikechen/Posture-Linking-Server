@@ -12,6 +12,18 @@ standing = [
   %{
     name: "standing",
     type: static_type
+  },
+  %{
+    name: "shaking hand",
+    type: dynamic_short_type
+  },
+  %{
+    name: "jumping",
+    type: dynamic_short_type
+  },
+  %{
+    name: "claping hands",
+    type: dynamic_short_type
   }
 ]
 

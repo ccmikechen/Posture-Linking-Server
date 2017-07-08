@@ -25,7 +25,7 @@ defmodule Poselink.PostureController do
 
   def build(conn, %{"description" => description}) do
     dataset = load_all_posture_data()
-    graph_path = Poselink.PostureModelBuilder.build(dataset, description)
+    graph_path = Poselink.PostureModelBuilder.build(dataset)
 
     new_model = %PostureModel{
       path: graph_path,
@@ -44,7 +44,9 @@ defmodule Poselink.PostureController do
     |> last()
     |> Repo.one()
 
-    send_file(conn, 200, model_path: lastest_model.path)
+    conn
+    |> put_resp_header("content-disposition", "attachment; filename\"model.pb\"")
+    |> send_file(200, lastest_model.path)
   end
 
   defp load_all_posture_data do

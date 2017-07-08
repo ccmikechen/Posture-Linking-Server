@@ -15,7 +15,7 @@ defmodule Poselink.PostureModelBuilder do
 
     {:ok, pid} = Python.start_link(python_path: @python_path)
     graph_path = Python.call(pid, "poselink", "build_posture_model", [
-          data, type, {@rows, @cols}, classes, @model_path
+          data, type, {@rows, @cols}, classes + 1, @model_path
         ])
 
     graph_path
