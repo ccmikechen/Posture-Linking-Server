@@ -10,7 +10,8 @@ defmodule Poselink.Mixfile do
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      aliases: aliases(),
-     deps: deps()]
+     deps: deps()
+    ]
   end
 
   # Configuration for the OTP application.
@@ -29,8 +30,11 @@ defmodule Poselink.Mixfile do
        :comeonin,
        :guardian,
        :gcm,
-       :httpoison,
-       :export]]
+       :export,
+       :httpoison
+     ]
+    ]
+>>>>>>> add update combination status routing
   end
 
   # Specifies which paths to compile per environment.
@@ -52,7 +56,8 @@ defmodule Poselink.Mixfile do
      {:cors_plug, "~> 1.2.1"},
      {:gcm, "~> 1.2"},
      {:httpoison, "~> 0.12.0"},
-     {:export, "~> 0.1.1"}]
+     {:export, "~> 0.1.1"}
+    ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

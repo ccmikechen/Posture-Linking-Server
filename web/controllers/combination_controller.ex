@@ -79,7 +79,6 @@ defmodule Poselink.CombinationController do
         conn
         |> put_status(:unprocessable_entity)
         |> render(Poselink.ChangesetView, "error.json", changeset: changeset)
-
     end
   end
 
@@ -95,6 +94,21 @@ defmodule Poselink.CombinationController do
         conn
         |> put_status(:unprocessable_entity)
         |> render(Poselink.ChangesetView, "error.json", changeset: changeset)
+    end
+  end
+
+  def update_status(conn, %{"id" => combination_id, "status" => status}) do
+    combination = Repo.get(Combination, combination_id)
+    changeset = Combination.changeset(combination, %{"status" => status})
+
+    case Repo.update(changeset) do
+      {:ok, new_combination} ->
+        conn
+        |> render("show.json", combination: Repo.preload(new_combination, [:trigger, :action]))
+      {:error, changeset} ->
+        conn
+        |> put_status(:unproccessable_entity)
+        |> render(Poselink.ChangesetView, "error.json", changest: changeset)
     end
   end
 

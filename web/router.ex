@@ -18,6 +18,7 @@ defmodule Poselink.Router do
     resources "/users", UserController, only: [:create]
     resources "/services", ServiceController, only: [:index]
     resources "/combinations", CombinationController, except: [:show]
+    patch "/combination/status", CombinationController, :update_status
     resources "/user_service_configs",
       UserServiceConfigController, only: [:index, :create]
     get "/user_service_configs", UserServiceConfigController, :show
