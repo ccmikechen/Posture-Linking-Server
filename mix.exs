@@ -34,7 +34,6 @@ defmodule Poselink.Mixfile do
        :httpoison
      ]
     ]
->>>>>>> add update combination status routing
   end
 
   # Specifies which paths to compile per environment.
