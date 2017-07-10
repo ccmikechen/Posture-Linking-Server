@@ -16,7 +16,8 @@ defmodule Poselink.CombinationController do
     query =
       from c in Combination,
       where: c.user_id == ^current_user.id and c.status != 2,
-      preload: [:trigger,:action]
+      preload: [:trigger,:action],
+      order_by: [:id]
 
     combinations = Repo.all(query)
 
