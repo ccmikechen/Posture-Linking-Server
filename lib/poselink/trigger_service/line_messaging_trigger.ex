@@ -16,6 +16,10 @@ defmodule Poselink.TriggerService.LineMessagingTrigger do
     GenServer.cast(__MODULE__, {:event, event})
   end
 
+  def on_message(user, payload) do
+    GenServer.cast(__MODULE__, {:on_message, user, payload})
+  end
+
   def handle_cast({:event,
                    %{"type" => "message",
                      "source" => %{
@@ -30,16 +34,7 @@ defmodule Poselink.TriggerService.LineMessagingTrigger do
     get_user_by_line_user_id(line_user_id, service_id)
     |> Enum.each(fn user ->
       payload = %{"message" => text, "reply_token" => reply_token}
-      query =
-        from t in Trigger,
-      join: c in Combination, on: [trigger_id: t.id],
-      where: c.user_id == ^user.id and t.service_id == ^service_id
-
-      query
-      |> Repo.all()
-      |> Enum.each(fn trigger ->
-        Poselink.TriggerServer.trigger(trigger, payload)
-      end)
+      on_message(user, payload)
     end)
 
     {:noreply, service_id}
@@ -70,5 +65,20 @@ defmodule Poselink.TriggerService.LineMessagingTrigger do
       end
     end)
     |> Enum.map(fn %{user: user} -> user end)
+  end
+
+  def handle_cast({:on_message, user, payload}) do
+    query =
+      from t in Trigger,
+      join: c in Combination, on: [trigger_id: t.id],
+      join: e in Event, on: [event_id: e.id],
+      where: c.user_id == ^user.id and e.name == "on_message",
+      select: t
+
+    query
+    |> Repo.all()
+    |> Enum.each(fn trigger ->
+      Poselink.TriggerServer.trigger(trigger, payload)
+    end)
   end
 end

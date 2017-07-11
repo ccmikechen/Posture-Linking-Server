@@ -6,11 +6,7 @@ defmodule Poselink.ServiceController do
   alias Poselink.Service
 
   def index(conn, _params) do
-    query =
-      from s in Service,
-      preload: [:classification]
-
-    services = Repo.all(query)
+    services = Service |> Repo.all() |> Repo.preload(:classification)
 
     render(conn, "index.json", services: services)
   end

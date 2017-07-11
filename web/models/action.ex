@@ -3,7 +3,7 @@ defmodule Poselink.Action do
 
   schema "actions" do
     field :config, :string
-    belongs_to :service, Poselink.Service
+    belongs_to :event, Poselink.Event
 
     timestamps()
   end

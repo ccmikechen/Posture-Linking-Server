@@ -16,7 +16,7 @@ defmodule Poselink.CombinationController do
     query =
       from c in Combination,
       where: c.user_id == ^current_user.id and c.status != 2,
-      preload: [:trigger,:action],
+      preload: [:trigger, :action],
       order_by: [:id]
 
     combinations = Repo.all(query)
@@ -116,7 +116,7 @@ defmodule Poselink.CombinationController do
   defp create_trigger(params) do
     changeset = Trigger.changeset(
       %Trigger{
-        service_id: params["service_id"],
+        event_id: params["event_id"],
         config: Poison.encode!(params["config"])
       }
     )
@@ -126,7 +126,7 @@ defmodule Poselink.CombinationController do
   defp create_action(params) do
     changeset = Action.changeset(
       %Action{
-        service_id: params["service_id"],
+        event_id: params["event_id"],
         config: Poison.encode!(params["config"])
       }
     )

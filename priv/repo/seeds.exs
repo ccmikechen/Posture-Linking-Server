@@ -17,6 +17,7 @@ alias Poselink.Classification
 alias Poselink.Service
 alias Poselink.Trigger
 alias Poselink.Action
+alias Poselink.Event
 alias Poselink.Combination
 alias Poselink.User
 alias Poselink.UserServiceConfig
@@ -77,16 +78,74 @@ action_services = [
   }
 ]
 
+events = [
+  %{
+    service: "button",
+    name: "on click",
+    description: "When button has been clicked",
+    options: []
+  },
+  %{
+    service: "timer",
+    name: "on time",
+    description: "At every specific time",
+    options: [
+      %{
+        "type" => "option",
+        "name" => "time",
+        "options" => [
+          15, 30, 45, 60
+        ]
+      }
+    ]
+  },
+  %{
+    service: "line messaging",
+    name: "on message",
+    description: "When a message has been received",
+    options: [
+      %{
+        "type" => "text",
+        "name" => "message"
+      }
+    ]
+  },
+  %{
+    service: "notification",
+    name: "do notification",
+    description: "Notify to smart phone",
+    options: [
+      %{
+        "type" => "textarea",
+        "name" => "message"
+      }
+    ]
+  },
+  %{
+    service: "line notify",
+    name: "do notification",
+    description: "Notify to LINE",
+    options: [
+      %{
+        "type" => "textarea",
+        "name" => "message"
+      }
+    ]
+  }
+]
+
 combinations = [
   %{
     trigger: %{
       service: "button",
-      config: "{}"
+      event: "on click",
+      config: %{}
     },
     action: %{
       service: "line notify",
-      config: Poison.encode! %{
-        content: "hello"
+      event: "do notification",
+      config: %{
+        message: "hello"
       }
     },
     user: "testuser",
@@ -96,12 +155,14 @@ combinations = [
   %{
     trigger: %{
       service: "button",
-      config: "{}"
+      event: "on click",
+      config: %{},
     },
     action: %{
       service: "notification",
-      config: Poison.encode! %{
-        content: "man"
+      event: "do notification",
+      config: %{
+        message: "man"
       }
     },
     user: "testuser",
@@ -111,12 +172,16 @@ combinations = [
   %{
     trigger: %{
       service: "timer",
-      config: "{}"
+      event: "on time",
+      config: %{
+        "time" => 15
+      }
     },
     action: %{
       service: "line notify",
-      config: Poison.encode! %{
-        content: "yo guys!"
+      event: "do notification",
+      config: %{
+        message: "yo guys!"
       }
     },
     user: "testuser",
@@ -164,17 +229,18 @@ user_service_configs = [
   }
 ]
 
-# Ecto functions
+### Ecto functions
 
-User.registration_changeset(%User{},
-  %{
-    "username" => default_user.username,
-    "password" => default_user.password,
-    "email" => default_user.email,
-    "nickname" => default_user.nickname
-  })
-  |> Repo.insert(on_conflict: :nothing, conflict_target: [:username])
+# users
+User.registration_changeset(%User{}, %{
+      "username" => default_user.username,
+      "password" => default_user.password,
+      "email" => default_user.email,
+      "nickname" => default_user.nickname}
+)
+|> Repo.insert(on_conflict: :nothing, conflict_target: [:username])
 
+# notification_types
 notification_types
 |> Enum.map(fn name -> %NotificationType{name: name} end)
 |> Enum.each(fn type ->
@@ -185,6 +251,7 @@ notification_types
   )
 end)
 
+# classfications
 classifications
 |> Enum.map(fn name -> %Classification{name: name} end)
 |> Enum.each(fn type ->
@@ -194,9 +261,11 @@ classifications
   )
 end)
 
+# service type constants
 trigger_type = 1
 action_type = 2
 
+# trigger_services
 trigger_services
 |> Enum.map(fn service ->
   %Service{
@@ -214,6 +283,7 @@ end)
   )
 end)
 
+# action_services
 action_services
 |> Enum.map(fn service ->
   %Service{
@@ -225,13 +295,29 @@ action_services
 }
 end)
 |> Enum.each(fn service ->
-  action = Repo.insert(service,
+  Repo.insert(service,
     on_conflict: :replace_all,
     conflict_target: [:type, :name]
-)
-  IO.inspect(action)
+  )
 end)
 
+# events
+events
+|> Enum.map(fn event ->
+  %Event{
+    service_id: Repo.get_by(Service, name: event.service).id,
+    name: event.name,
+    description: event.description,
+    options: Poison.encode!(event.options)
+}
+end)
+|> Enum.each(fn event ->
+  Repo.insert(event,
+    on_conflict: :replace_all,
+    conflict_target: [:service_id, :name])
+end)
+
+# combinations
 from(c in Combination, where: c.user_id)
 combinations
 |> Enum.map(fn combination ->
@@ -240,20 +326,31 @@ combinations
   from(c in Combination, where: c.user_id == ^user_id)
   |> Repo.delete_all
 
+  trigger_service =
+    Repo.get_by(Service, name: combination.trigger.service)
+  trigger_event =
+    Repo.get_by(Event,
+      name: combination.trigger.event,
+      service_id: trigger_service.id)
   trigger =
     %Trigger{
-      service_id: Repo.get_by(Service,
-        name: combination.trigger.service).id,
-      config: combination.trigger.config
+      event_id: trigger_event.id,
+      config: Poison.encode!(combination.trigger.config)
     }
 
   {:ok, %{id: trigger_id}} = Repo.insert(trigger)
 
+
+  action_service =
+    Repo.get_by(Service, name: combination.action.service)
+  action_event =
+    Repo.get_by(Event,
+      name: combination.action.event,
+      service_id: action_service.id)
   action =
     %Action{
-      service_id: Repo.get_by(Service,
-        name: combination.action.service).id,
-      config: combination.action.config
+      event_id: action_event.id,
+      config: Poison.encode!(combination.action.config)
     }
   {:ok, %{id: action_id}} = Repo.insert(action)
 
@@ -272,6 +369,7 @@ end)
   )
 end)
 
+# user_service_configs
 user_service_configs
 |> Enum.each(fn config ->
   service =
@@ -294,4 +392,5 @@ user_service_configs
   )
 end)
 
+# load postures
 Code.load_file("priv/repo/posture_seeds.exs")

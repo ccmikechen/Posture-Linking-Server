@@ -26,7 +26,7 @@ defmodule Poselink.ActionService do
   defp load_action_services do
     [services: services] = Application.get_env(:poselink, __MODULE__)
     services
-    |> Enum.map(fn {name, module} ->
+    |> Enum.map(fn {name, module, _} ->
       case Repo.get_by(Service, name: name) do
         nil ->
           IO.puts "Service #{name} not found"

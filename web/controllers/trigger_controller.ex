@@ -4,18 +4,17 @@ defmodule Poselink.TriggerController do
   plug Guardian.Plug.EnsureAuthenticated,
     handler: Poselink.SessionController
 
-  def trigger(conn, %{"service_id" => service_id, "payload" => payload}) do
-    current_user = Guardian.Plug.current_resource(conn)
+  alias Poselink.Trigger
 
-    IO.inspect current_user
+  def trigger(conn, %{"event_id" => event_id, "payload" => payload}) do
+    current_user = Guardian.Plug.current_resource(conn)
 
     Poselink.ClientTriggerHandler.handle_trigger(
       current_user,
-      service_id,
-      payload
+      String.to_integer(event_id),
+      Poison.decode!(payload)
     )
 
-    conn
-    |> send_resp(200, "{}")
+    send_resp(conn, 200, "{}")
   end
 end

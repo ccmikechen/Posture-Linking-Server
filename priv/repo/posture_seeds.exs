@@ -1,5 +1,3 @@
-import Ecto.Query
-
 alias Poselink.Repo
 alias Poselink.Posture
 alias Poselink.PostureClassification

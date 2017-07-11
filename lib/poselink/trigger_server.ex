@@ -1,6 +1,8 @@
 defmodule Poselink.TriggerServer do
   use GenServer
 
+  import Ecto.Query
+
   alias Poselink.Repo
   alias Poselink.Combination
 
@@ -15,8 +17,6 @@ defmodule Poselink.TriggerServer do
   # Server
 
   def handle_cast({:trigger, trigger, payload}, state) do
-    import Ecto.Query
-
     query =
       from c in Combination,
       preload: [:action, :user],
