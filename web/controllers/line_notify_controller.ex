@@ -1,10 +1,7 @@
 defmodule Poselink.LineNotifyController do
   use Poselink.Web, :controller
 
-  def callback(conn, params) do
-    IO.puts "line notify callback"
-    IO.inspect params
-
-    send_resp(conn, 200, "")
+  def callback(conn, %{"code" => code}) do
+    render(conn, "index.html", code: code)
   end
 end

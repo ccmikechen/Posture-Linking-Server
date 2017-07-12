@@ -94,7 +94,7 @@ events = [
         "type" => "option",
         "name" => "time",
         "options" => [
-          15, 30, 45, 60
+          10, 20, 30, 60
         ]
       }
     ]
@@ -174,7 +174,7 @@ combinations = [
       service: "timer",
       event: "on time",
       config: %{
-        "time" => 15
+        "time" => "60"
       }
     },
     action: %{

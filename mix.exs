@@ -21,6 +21,7 @@ defmodule Poselink.Mixfile do
     [mod: {Poselink, []},
      applications: [
        :phoenix,
+       :phoenix_html,
        :phoenix_pubsub,
        :cowboy,
        :logger,
@@ -45,6 +46,7 @@ defmodule Poselink.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [{:phoenix, "~> 1.2.1"},
+     {:phoenix_html, "~> 2.9.3"},
      {:phoenix_pubsub, "~> 1.0"},
      {:phoenix_ecto, "~> 3.0"},
      {:postgrex, ">= 0.0.0"},

@@ -26,7 +26,7 @@ defmodule Poselink.AbsoluteTimer do
       {:set_gap, new_gap} -> loop(new_gap, module, func)
     after
       last_time ->
-        apply(module, func, [15])
+        apply(module, func, [DateTime.utc_now()])
         loop(gap, module, func)
     end
   end

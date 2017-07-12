@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+            <main role="main">
+                <%= render @view_module, @view_template, assigns %>
+            </main>
+    </body>
+</html>

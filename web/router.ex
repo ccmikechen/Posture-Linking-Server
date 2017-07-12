@@ -1,6 +1,10 @@
 defmodule Poselink.Router do
   use Poselink.Web, :router
 
+  pipeline :browser do
+    plug :accepts, ["html"]
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
     plug Guardian.Plug.VerifyHeader, realm: "Bearer"
@@ -28,8 +32,6 @@ defmodule Poselink.Router do
     get "/posture/dataset", PostureController, :dataset
     get "/posture/model", PostureController, :model
     post "/posture/model/build", PostureController, :build
-
-    post "/line_notify/callback", LineNotifyController, :callback
   end
 
   scope "/webhook", Poselink do
@@ -37,5 +39,12 @@ defmodule Poselink.Router do
 
     get "/line/callback", LineMessagingController, :callback
     post "/line/callback", LineMessagingController, :callback
+  end
+
+  scope "/redirect", Poselink do
+    pipe_through :browser
+
+    post "/line_notify/callback", LineNotifyController, :callback
+    get "/line_notify/callback", LineNotifyController, :callback
   end
 end
