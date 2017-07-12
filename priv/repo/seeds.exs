@@ -202,8 +202,7 @@ user_service_configs = [
         token: "d6CeRvb70qA:APA91bFTXsXSFrTkCrtbsJ2uwNmFHroHvQo3BBDvq60a133QrLmcVOmwpLS-5fqfN7kZaq3vkmWfBaaI-HBnIxCAV8yMTt6O93wB4nQOBWoz_f7jyK5IPkqN4uc-ChQPGXek4GkLj9bz"
       }
     }
-  },
-  %{
+  }, %{
     user: "testuser",
     service: %{
       type: 2,
@@ -214,8 +213,7 @@ user_service_configs = [
         token: "kemONXdmtfwbwlZgv6CwFB2799DOzwyvmI8iFh53AEi"
       }
     }
-  },
-  %{
+  }, %{
     user: "testuser",
     service: %{
       type: 1,
@@ -225,6 +223,22 @@ user_service_configs = [
       line_messaging: %{
         user_id: "U85020f513ece9f40e777c37b2c4d4b3c"
       }
+    }
+  }, %{
+    user: "testuser",
+    service: %{
+      type: 1,
+      name: "button"
+    },
+    config: %{
+    }
+  }, %{
+    user: "testuser",
+    service: %{
+      type: 2,
+      name: "timer"
+    },
+    config: %{
     }
   }
 ]

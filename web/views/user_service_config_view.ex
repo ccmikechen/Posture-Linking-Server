@@ -14,7 +14,7 @@ defmodule Poselink.UserServiceConfigView do
       id: user_service_config.id,
       config: Poison.decode!(user_service_config.config),
       status: user_service_config.status,
-      service_id: user_service_config.service.id
+      service_id: user_service_config.service_id
     }
   end
 end
