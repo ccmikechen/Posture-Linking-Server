@@ -235,7 +235,7 @@ user_service_configs = [
   }, %{
     user: "testuser",
     service: %{
-      type: 2,
+      type: 1,
       name: "timer"
     },
     config: %{

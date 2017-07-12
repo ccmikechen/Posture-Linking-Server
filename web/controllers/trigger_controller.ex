@@ -11,8 +11,8 @@ defmodule Poselink.TriggerController do
 
     Poselink.ClientTriggerHandler.handle_trigger(
       current_user,
-      String.to_integer(event_id),
-      Poison.decode!(payload)
+      event_id,
+      payload
     )
 
     send_resp(conn, 200, "{}")

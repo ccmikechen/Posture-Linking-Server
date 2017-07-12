@@ -28,9 +28,13 @@ defmodule Poselink.TriggerService.TimerTrigger do
     query
     |> Repo.all()
     |> Enum.each(fn trigger ->
+      time_str = "#{time}"
+
       case Poison.decode!(trigger.config) do
-        %{"time" => ^time} ->
+        %{"time" => ^time_str} ->
           Poselink.TriggerServer.trigger(trigger, %{})
+        _ ->
+          :nothing
       end
     end)
 
