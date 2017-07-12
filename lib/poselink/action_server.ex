@@ -5,6 +5,7 @@ defmodule Poselink.ActionServer do
   alias Poselink.Service
   alias Poselink.Event
   alias Poselink.ActionService
+  alias Poselink.UserServiceConfig
 
   def start_link do
     action_events = load_action_events()
@@ -19,13 +20,19 @@ defmodule Poselink.ActionServer do
   # Server
 
   def handle_cast({:execute, user, action, payload}, action_events) do
-    event = Repo.get_by(Event, id: action.event_id)
-    config = Poison.decode!(action.config)
+    event = Repo.get(Event, action.event_id)
 
-    IO.puts "#{inspect(self())}: Service #{event.service_id} has been executed"
+    case check_service_status(event.service_id) do
+      {:connected, _} ->
+        config = Poison.decode!(action.config)
 
-    {action, func} = action_events[event.id]
-    apply(action, func, [user, payload, config])
+        IO.puts "#{inspect(self())}: Service #{event.service_id} has been executed"
+
+        {action, func} = action_events[event.id]
+        apply(action, func, [user, payload, config])
+      {:not_connected, _} ->
+        :nothing
+    end
 
     {:noreply, action_events}
   end
@@ -49,5 +56,17 @@ defmodule Poselink.ActionServer do
           end)
       end
     end)
+  end
+
+
+  defp check_service_status(service_id) do
+    config = Repo.get_by(UserServiceConfig, service_id: service_id)
+
+    case config.status do
+      "connected" ->
+        {:connected, config}
+      _ ->
+        {:not_connected, config}
+    end
   end
 end

@@ -14,7 +14,6 @@ defmodule Poselink.ActionService.NotificationAction do
 
   def handle_cast({:do_notification, user, payload, config}, service_id) do
     [api_key: key] = Application.get_env(:poselink, __MODULE__)
-
     %{"gcm" => %{"token" => token}} =
       UserServiceConfig
       |> Repo.get_by!(user_id: user.id, service_id: service_id)

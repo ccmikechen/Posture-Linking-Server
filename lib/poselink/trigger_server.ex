@@ -5,6 +5,8 @@ defmodule Poselink.TriggerServer do
 
   alias Poselink.Repo
   alias Poselink.Combination
+  alias Poselink.UserServiceConfig
+  alias Poselink.Event
 
   def start_link do
     GenServer.start_link(__MODULE__, nil, [name: __MODULE__])
@@ -17,25 +19,42 @@ defmodule Poselink.TriggerServer do
   # Server
 
   def handle_cast({:trigger, trigger, payload}, state) do
-    query =
-      from c in Combination,
-      preload: [:action, :user],
-      where: c.trigger_id == ^trigger.id
+    event = Repo.get(Event, trigger.event_id)
 
-    combinations = Repo.all(query)
-    combinations
-    |> Enum.each(fn combination ->
-      if combination.status == 1 do
-        IO.puts "#{inspect(self())}: Combination #{combination.id} has been triggered"
-        Poselink.ActionServer.execute(
-          combination.user,
-          combination.action,
-          payload
-        )
-      end
-    end)
+    case check_service_status(event.service_id) do
+      {:connected, _} ->
+        query =
+          from c in Combination,
+          preload: [:action, :user],
+          where: c.trigger_id == ^trigger.id
+
+        combinations = Repo.all(query)
+        combinations
+        |> Enum.each(fn combination ->
+          if combination.status == 1 do
+            IO.puts "#{inspect(self())}: Combination #{combination.id} has been triggered"
+            Poselink.ActionServer.execute(
+              combination.user,
+              combination.action,
+              payload
+            )
+          end
+        end)
+      {:not_connected, _} ->
+        :nothing
+    end
 
     {:noreply, state}
   end
 
+  defp check_service_status(service_id) do
+    config = Repo.get_by(UserServiceConfig, service_id: service_id)
+
+    case config.status do
+      "connected" ->
+        {:connected, config}
+      _ ->
+        {:not_connected, config}
+    end
+  end
 end
