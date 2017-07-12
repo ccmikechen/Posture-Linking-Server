@@ -7,7 +7,11 @@ defmodule Poselink.UserServiceConfigController do
     handler: Poselink.SessionController
 
   def index(conn, _params) do
-    user_service_configs = Repo.all(UserServiceConfig)
+    user_service_configs =
+      UserServiceConfig
+      |> Repo.all()
+      |> Repo.preload(:service)
+    
     render(conn, "index.json", user_service_configs: user_service_configs)
   end
 
