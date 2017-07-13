@@ -32,6 +32,8 @@ defmodule Poselink.Router do
     get "/posture/dataset", PostureController, :dataset
     get "/posture/model", PostureController, :model
     post "/posture/model/build", PostureController, :build
+
+
   end
 
   scope "/webhook", Poselink do
@@ -41,10 +43,13 @@ defmodule Poselink.Router do
     post "/line/callback", LineMessagingController, :callback
   end
 
+  scope "/oauth", Poselink do
+    get "/authorize", AuthController, :authorize
+  end
+
   scope "/redirect", Poselink do
     pipe_through :browser
 
     post "/line_notify/callback", LineNotifyController, :callback
-    get "/line_notify/callback", LineNotifyController, :callback
   end
 end

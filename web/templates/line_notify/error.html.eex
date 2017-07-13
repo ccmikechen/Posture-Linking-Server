@@ -1,0 +1,5 @@
+<div>
+    <script>
+         window.location.href = "posturelinking://line_notify/failed";
+    </script>
+</div>

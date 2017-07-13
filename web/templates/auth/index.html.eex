@@ -1,0 +1,18 @@
+<div>
+    <script>
+     var serviceType = <%= @service_type %>;
+     var serviceName = "<%= @service_name %>";
+
+     switch (serviceType) {
+         case 1:
+             break;
+         case 2:
+             switch (serviceName) {
+                 case "line notify":
+                     window.location.href = "https://notify-bot.line.me/oauth/authorize?response_type=code&client_id=p2NJpZH0R3d9HJFVfpuyAq&redirect_uri=https://t21.bearlab.io/redirect/line_notify/callback&scope=notify&state=<%= @token %>";
+                     break;
+             }
+             break;
+     }
+    </script>
+</div>
