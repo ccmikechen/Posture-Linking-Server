@@ -44,6 +44,31 @@ defmodule Poselink.TriggerService.LineMessagingTrigger do
     {:noreply, service_id}
   end
 
+  def handle_cast({:event,
+                   %{"type" => "follow",
+                     "source" => %{
+                       "userId" => line_user_id
+                     },
+                     "replyToken" => reply_token
+                   }}, service_id) do
+    {:noreply, service_id}
+  end
+
+  def handle_cast({:on_message, user, payload}) do
+    query =
+      from t in Trigger,
+      join: c in Combination, on: [trigger_id: t.id],
+      join: e in Event, on: [event_id: e.id],
+      where: c.user_id == ^user.id and e.name == "on_message",
+      select: t
+
+    query
+    |> Repo.all()
+    |> Enum.each(fn trigger ->
+      Poselink.TriggerServer.trigger(trigger, payload)
+    end)
+  end
+
   defp get_user_by_line_user_id(line_user_id, service_id) do
     query =
       from c in UserServiceConfig,
@@ -65,20 +90,5 @@ defmodule Poselink.TriggerService.LineMessagingTrigger do
       end
     end)
     |> Enum.map(fn %{user: user} -> user end)
-  end
-
-  def handle_cast({:on_message, user, payload}) do
-    query =
-      from t in Trigger,
-      join: c in Combination, on: [trigger_id: t.id],
-      join: e in Event, on: [event_id: e.id],
-      where: c.user_id == ^user.id and e.name == "on_message",
-      select: t
-
-    query
-    |> Repo.all()
-    |> Enum.each(fn trigger ->
-      Poselink.TriggerServer.trigger(trigger, payload)
-    end)
   end
 end

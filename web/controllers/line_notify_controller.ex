@@ -30,6 +30,10 @@ defmodule Poselink.LineNotifyController do
     end
   end
 
+  def callback(conn, _params) do
+    render(conn, "error.html")
+  end
+
   defp get_access_token(code) do
     params = [
       "grant_type=#{@grant_type}",
