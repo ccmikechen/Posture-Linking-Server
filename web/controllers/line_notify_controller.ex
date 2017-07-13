@@ -40,9 +40,11 @@ defmodule Poselink.LineNotifyController do
     case HTTPoison.post(@token_url, body, @headers, @options) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         IO.inspect body
-        {:ok, body["access_token"]}
+        access_token = Poison.decode!(body)["access_token"]
+        {:ok, access_token}
       {:ok, %HTTPoison.Response{status_code: 400, body: body}} ->
-        {:error, body["message"]}
+        message = Poison.decode!(body)["message"]
+        {:error, message}
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:error, reason}
     end
