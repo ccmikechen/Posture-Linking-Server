@@ -49,6 +49,5 @@ defmodule Poselink.Router do
     pipe_through :browser
 
     get "/line_notify/callback", LineNotifyController, :callback
-    get "/line_notify/token", LineNotifyController, :token
   end
 end
