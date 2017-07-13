@@ -1,6 +1,9 @@
 defmodule Poselink.LineNotifyController do
   use Poselink.Web, :controller
 
+  alias Poselink.Service
+  alias Poselink.UserServiceConfig
+
   @token_url "https://notify-bot.line.me/oauth/token"
   @grant_type "authorization_code"
   @redirect_uri "https://t21.bearlab.io/redirect/line_notify/callback"
@@ -17,7 +20,7 @@ defmodule Poselink.LineNotifyController do
         IO.puts "user: #{user.username} code: #{code}"
         case get_access_token(code) do
           {:ok, access_token} ->
-            IO.puts "access token: #{access_token}"
+            save_token(user, access_token)
             render(conn, "index.html")
           {:error, reason} ->
             render(conn, "error.html", reason: reason)
@@ -48,5 +51,26 @@ defmodule Poselink.LineNotifyController do
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:error, reason}
     end
+  end
+
+  defp save_token(user, token) do
+    service = Repo.get_by(Service, type: 2, name: "line notify")
+
+    user_service_config = %UserServiceConfig{
+      user_id: user.id,
+      status: "connected",
+      service_id: service.id,
+      config: Poison.encode!(
+        %{
+          "line_notify": %{
+            "token": token
+          }
+        })
+    }
+
+    Repo.insert(user_service_config,
+      on_conflict: :replace_all,
+      conflict_target: [:user_id, :service_id]
+    )
   end
 end
