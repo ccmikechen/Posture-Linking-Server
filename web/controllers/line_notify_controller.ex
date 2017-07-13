@@ -17,7 +17,6 @@ defmodule Poselink.LineNotifyController do
   def callback(conn, %{"code" => code, "state" => token}) do
     case Guardian.serializer.from_access_token(token) do
       {:ok, user} ->
-        IO.puts "user: #{user.username} code: #{code}"
         case get_access_token(code) do
           {:ok, access_token} ->
             save_token(user, access_token)
@@ -46,7 +45,6 @@ defmodule Poselink.LineNotifyController do
 
     case HTTPoison.post(@token_url, body, @headers, @options) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        IO.inspect body
         access_token = Poison.decode!(body)["access_token"]
         {:ok, access_token}
       {:ok, %HTTPoison.Response{status_code: 400, body: body}} ->
