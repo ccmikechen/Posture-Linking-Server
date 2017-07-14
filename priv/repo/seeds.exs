@@ -149,7 +149,7 @@ combinations = [
       }
     },
     user: "testuser",
-    description: "push hello",
+    description: "當按下按鈕，則發送LINE Notify通知我",
     status: 1
   },
   %{
@@ -166,7 +166,7 @@ combinations = [
       }
     },
     user: "testuser",
-    description: "push man",
+    description: "當按下按鈕，則透過手機通知我",
     status: 1
   },
   %{
@@ -185,7 +185,7 @@ combinations = [
       }
     },
     user: "testuser",
-    description: "yo guys!",
+    description: "每隔一分鐘就發送LINE Notify通知我",
     status: 1
   }
 ]

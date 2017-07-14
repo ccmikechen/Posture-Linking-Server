@@ -11,14 +11,13 @@ defmodule Poselink.UserServiceConfigController do
       UserServiceConfig
       |> Repo.all()
       |> Repo.preload(:service)
-    
+
     render(conn, "index.json", user_service_configs: user_service_configs)
   end
 
   def create(conn, %{"service_id" => service_id, "config" => config}) do
     current_user = Guardian.Plug.current_resource(conn)
-    IO.puts "Service Id:"
-    IO.inspect service_id
+
     changeset =
       %UserServiceConfig{
         user_id: current_user.id,
