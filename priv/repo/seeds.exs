@@ -335,6 +335,46 @@ user_service_configs = [
     },
     config: %{
     }
+  }, %{
+    user: "testuser",
+    service: %{
+      type: 1,
+      name: "posture"
+    },
+    config: %{
+    }
+  }, %{
+    user: "testuser",
+    service: %{
+      type: 2,
+      name: "sheet music turner"
+    },
+    config: %{
+    }
+  }, %{
+    user: "testuser",
+    service: %{
+      type: 2,
+      name: "slide show"
+    },
+    config: %{
+    }
+  }, %{
+    user: "testuser",
+    service: %{
+      type: 2,
+      name: "smart bulb"
+    },
+    config: %{
+    }
+  }, %{
+    user: "testuser",
+    service: %{
+      type: 2,
+      name: "camera"
+    },
+    config: %{
+    }
   }
 ]
 
