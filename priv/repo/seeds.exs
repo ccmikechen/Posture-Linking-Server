@@ -87,7 +87,7 @@ action_services = [
     classification: "web service"
   },
   %{
-    name: "smart bolb",
+    name: "smart bulb",
     icon: "",
     classification: "device"
   },
@@ -179,16 +179,16 @@ events = [
     ]
   },
   %{
-    service: "smart bolb",
+    service: "smart bulb",
     name: "turn on",
-    description: "Turn the smart bolb on",
+    description: "Turn the smart bulb on",
     options: [
     ]
   },
   %{
-    service: "smart bolb",
+    service: "smart bulb",
     name: "turn off",
-    description: "Turn the smart bolb off",
+    description: "Turn the smart bulb off",
     options: [
     ]
   },

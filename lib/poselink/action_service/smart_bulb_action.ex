@@ -1,4 +1,4 @@
-defmodule Poselink.ActionService.SmartBolbAction do
+defmodule Poselink.ActionService.SmartBulbAction do
   use GenServer
 
   alias Poselink.Repo
@@ -16,12 +16,12 @@ defmodule Poselink.ActionService.SmartBolbAction do
   end
 
   def handle_cast({:turn_on, user, payload, config}, service_id) do
-    # TODO: SmartBolbAction.turn_on()
+    # TODO: SmartBulbAction.turn_on()
     {:noreply, service_id}
   end
 
   def handle_cast({:turn_off, user, payload, config}, service_id) do
-    # TODO: SmartBolbAction.turn_off()
+    # TODO: SmartBulbAction.turn_off()
     {:noreply, service_id}
   end
 end

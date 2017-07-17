@@ -54,7 +54,7 @@ config :poselink, ActionService,
       ]
     },
     {
-      "smart bolb", ActionService.SmartBolbAction, [
+      "smart bulb", ActionService.SmartBulbAction, [
         {"turn on", :turn_on},
         {"turn off", :turn_off}
       ]
