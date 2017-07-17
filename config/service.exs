@@ -5,16 +5,24 @@ alias Poselink.ActionService
 
 config :poselink, TriggerService,
   services: [
-    {"button", TriggerService.ButtonTrigger, [
+    {
+      "button", TriggerService.ButtonTrigger, [
         {"on click", :on_click}
       ]
     },
-    {"timer", TriggerService.TimerTrigger, [
+    {
+      "timer", TriggerService.TimerTrigger, [
         {"on time", :on_time}
       ]
     },
-    {"line messaging", TriggerService.LineMessagingTrigger, [
+    {
+      "line messaging", TriggerService.LineMessagingTrigger, [
         {"on message", :on_message}
+      ]
+    },
+    {
+      "posture", TriggerService.PostureTrigger, [
+        {"on stand", :on_stand}
       ]
     }
   ]

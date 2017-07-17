@@ -62,6 +62,11 @@ trigger_services = [
     name: "line messaging",
     icon: "",
     classification: "web service"
+  },
+  %{
+    name: "posture",
+    icon: "",
+    classification: "posture"
   }
 ]
 
@@ -212,6 +217,13 @@ events = [
     service: "camera",
     name: "do capturing",
     description: "Capture the photo",
+    options: [
+    ]
+  },
+  %{
+    service: "posture",
+    name: "on stand",
+    description: "When standing",
     options: [
     ]
   }
