@@ -75,6 +75,26 @@ action_services = [
     name: "line notify",
     icon: "",
     classification: "web service"
+  },
+  %{
+    name: "sheet music turner",
+    icon: "",
+    classification: "web service"
+  },
+  %{
+    name: "smart bolb",
+    icon: "",
+    classification: "device"
+  },
+  %{
+    name: "slide show",
+    icon: "",
+    classification: "web service"
+  },
+  %{
+    name: "camera",
+    icon: "",
+    classification: "smart phone"
   }
 ]
 
@@ -130,6 +150,69 @@ events = [
         "type" => "textarea",
         "name" => "message"
       }
+    ]
+  },
+  %{
+    service: "sheet music turner",
+    name: "turn next",
+    description: "Turn to next page of sheet music",
+    options: [
+    ]
+  },
+  %{
+    service: "sheet music turner",
+    name: "turn back",
+    description: "Turn to previous page of sheet music",
+    options: [
+    ]
+  },
+  %{
+    service: "sheet music turner",
+    name: "go first",
+    description: "Start from first page of sheet music",
+    options: [
+    ]
+  },
+  %{
+    service: "smart bolb",
+    name: "turn on",
+    description: "Turn the smart bolb on",
+    options: [
+    ]
+  },
+  %{
+    service: "smart bolb",
+    name: "turn off",
+    description: "Turn the smart bolb off",
+    options: [
+    ]
+  },
+  %{
+    service: "slide show",
+    name: "turn next",
+    description: "Turn to next page of slide show",
+    options: [
+    ]
+  },
+  %{
+    service: "slide show",
+    name: "turn back",
+    description: "Turn to previous page of slide show",
+    options: [
+    ]
+  },
+  %{
+    service: "slide show",
+    name: "go first",
+    description: "Start from first page of slide show",
+    options: [
+    ]
+  },
+  %{
+    service: "camera",
+    name: "do capturing",
+    description: "Capture the photo",
+    options: [
     ]
   }
 ]
