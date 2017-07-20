@@ -11,6 +11,8 @@ defmodule Poselink.PostureController do
   plug Guardian.Plug.EnsureAuthenticated,
     handler: Poselink.SessionController
 
+  @batch_size 8
+
   def index(conn, _params) do
     postures = Posture |> Repo.all() |> Repo.preload(:classification)
 
@@ -25,7 +27,7 @@ defmodule Poselink.PostureController do
 
   def build(conn, %{"description" => description}) do
     dataset = load_all_posture_data()
-    graph_path = Poselink.PostureModelBuilder.build(dataset)
+    graph_path = Poselink.PostureModelBuilder.build(dataset, 17, @batch_size)
 
     new_model = %PostureModel{
       path: graph_path,
@@ -64,7 +66,7 @@ defmodule Poselink.PostureController do
     end)
   end
 
-  defp load_record(record, batch \\ 16) do
+  defp load_record(record, batch \\ @batch_size) do
     type = record.posture.id
 
     query =
