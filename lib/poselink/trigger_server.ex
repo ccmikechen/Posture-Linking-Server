@@ -30,7 +30,7 @@ defmodule Poselink.TriggerServer do
     combinations
     |> Enum.each(fn combination ->
       if combination.status == 1 do
-        case check_service_status(event.service_id) do
+        case check_service_status(event.service_id, combination.user_id) do
           {:connected, _} ->
             IO.puts "#{inspect(self())}: Combination #{combination.id} has been triggered"
             Poselink.ActionServer.execute(
@@ -47,8 +47,8 @@ defmodule Poselink.TriggerServer do
     {:noreply, state}
   end
 
-  defp check_service_status(service_id) do
-    config = Repo.get_by(UserServiceConfig, service_id: service_id)
+  defp check_service_status(service_id, user_id) do
+    config = Repo.get_by(UserServiceConfig, service_id: service_id, user_id: user_id)
 
     case config.status do
       "connected" ->
