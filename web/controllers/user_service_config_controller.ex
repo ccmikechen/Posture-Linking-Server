@@ -15,7 +15,7 @@ defmodule Poselink.UserServiceConfigController do
     render(conn, "index.json", user_service_configs: user_service_configs)
   end
 
-  def create(conn, %{"service_id" => service_id, "config" => config}) do
+  def create(conn, %{"service_id" => service_id, "config" => config, "status" => status}) do
     current_user = Guardian.Plug.current_resource(conn)
 
     changeset =
@@ -23,7 +23,7 @@ defmodule Poselink.UserServiceConfigController do
         user_id: current_user.id,
         service_id: service_id,
         config: Poison.encode!(config),
-        status: "connected"
+        status: status
       }
       |> UserServiceConfig.changeset
 
