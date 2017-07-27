@@ -22,7 +22,7 @@ defmodule Poselink.ActionServer do
   def handle_cast({:execute, user, action, payload}, action_events) do
     event = Repo.get(Event, action.event_id)
 
-    case check_service_status(event.service_id) do
+    case check_service_status(event.service_id, user.id) do
       {:connected, _} ->
         config = Poison.decode!(action.config)
 
@@ -59,8 +59,8 @@ defmodule Poselink.ActionServer do
   end
 
 
-  defp check_service_status(service_id) do
-    config = Repo.get_by(UserServiceConfig, service_id: service_id)
+  defp check_service_status(service_id, user_id) do
+    config = Repo.get_by(UserServiceConfig, service_id: service_id, user_id: user_id)
 
     case config.status do
       "connected" ->
