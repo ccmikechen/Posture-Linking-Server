@@ -1,14 +1,19 @@
 defmodule Poselink.UserServiceConfigController do
   use Poselink.Web, :controller
 
+  import Ecto.Query
+
   alias Poselink.UserServiceConfig
 
   plug Guardian.Plug.EnsureAuthenticated,
     handler: Poselink.SessionController
 
   def index(conn, _params) do
+    current_user = Guardian.Plug.current_resource(conn)
+    query = from u in UserServiceConfig, where: u.user_id == ^current_user.id
+
     user_service_configs =
-      UserServiceConfig
+      query
       |> Repo.all()
       |> Repo.preload(:service)
 
