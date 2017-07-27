@@ -12,7 +12,7 @@ defmodule Poselink.SessionController do
         |> render("show.json", user: user, jwt: jwt)
       :error ->
         conn
-        |> put_status(:unauthrorized)
+        |> put_status(:unauthorized)
         |> render("error.json")
     end
   end
