@@ -20,29 +20,29 @@ defmodule Poselink.TriggerServer do
 
   def handle_cast({:trigger, trigger, payload}, state) do
     event = Repo.get(Event, trigger.event_id)
+    query =
+      from c in Combination,
+      preload: [:action, :user],
+      where: c.trigger_id == ^trigger.id
 
-    case check_service_status(event.service_id) do
-      {:connected, _} ->
-        query =
-          from c in Combination,
-          preload: [:action, :user],
-          where: c.trigger_id == ^trigger.id
+    combinations = Repo.all(query)
 
-        combinations = Repo.all(query)
-        combinations
-        |> Enum.each(fn combination ->
-          if combination.status == 1 do
+    combinations
+    |> Enum.each(fn combination ->
+      if combination.status == 1 do
+        case check_service_status(event.service_id) do
+          {:connected, _} ->
             IO.puts "#{inspect(self())}: Combination #{combination.id} has been triggered"
             Poselink.ActionServer.execute(
               combination.user,
               combination.action,
               payload
             )
-          end
-        end)
-      {:not_connected, _} ->
-        :nothing
-    end
+          {:not_connected, _} ->
+            :nothing
+        end
+      end
+    end)
 
     {:noreply, state}
   end
