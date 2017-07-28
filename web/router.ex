@@ -50,4 +50,8 @@ defmodule Poselink.Router do
 
     get "/line_notify/callback", LineNotifyController, :callback
   end
+
+  scope "/privacy_policy", Poselink do
+    get "/", PrivacyPolicyController, :show
+  end
 end
