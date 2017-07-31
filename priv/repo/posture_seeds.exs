@@ -4,7 +4,7 @@ alias Poselink.PostureClassification
 
 static_type = 1
 dynamic_short_type = 2
-dynamic_lone_type = 3
+dynamic_long_type = 3
 
 standing = [
   %{
