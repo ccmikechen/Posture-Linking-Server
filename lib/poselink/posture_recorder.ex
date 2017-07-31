@@ -79,7 +79,10 @@ defmodule Poselink.PostureRecorder do
           right_insole_pressure_d: parseFloat(data["insole"]["right"]["d"]),
           band_acc_x: parseFloat(data["band"]["acc"]["x"]),
           band_acc_y: parseFloat(data["band"]["acc"]["y"]),
-          band_acc_z: parseFloat(data["band"]["acc"]["z"])
+          band_acc_z: parseFloat(data["band"]["acc"]["z"]),
+          band_gyro_x: parseFloat(data["band"]["gyro"]["x"]),
+          band_gyro_y: parseFloat(data["band"]["gyro"]["y"]),
+          band_gyro_z: parseFloat(data["band"]["gyro"]["z"])
         }
       Repo.insert(record_detail)
     end)

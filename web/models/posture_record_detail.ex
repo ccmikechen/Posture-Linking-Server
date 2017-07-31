@@ -19,6 +19,9 @@ defmodule Poselink.PostureRecordDetail do
     field :band_acc_x, :float
     field :band_acc_y, :float
     field :band_acc_z, :float
+    field :band_gyro_x, :float
+    field :band_gyro_y, :float
+    field :band_gyro_z, :float
     field :sequence_number, :integer
     belongs_to :posture_record, Poselink.PostureRecord
 
