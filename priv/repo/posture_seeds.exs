@@ -12,7 +12,7 @@ standing = [
     type: static_type
   },
   %{
-    name: "shaking hand",
+    name: "shaking hand when standing",
     type: dynamic_short_type
   },
   %{
@@ -20,7 +20,15 @@ standing = [
     type: dynamic_short_type
   },
   %{
-    name: "claping hands",
+    name: "claping hands when standing",
+    type: dynamic_short_type
+  },
+  %{
+    name: "right step when standing",
+    type: dynamic_short_type
+  },
+  %{
+    name: "left step when standing",
     type: dynamic_short_type
   }
 ]
@@ -29,12 +37,44 @@ sitting = [
   %{
     name: "sitting",
     type: static_type
+  },
+  %{
+    name: "shaking hand when sitting",
+    type: dynamic_short_type
+  },
+  %{
+    name: "claping hands when sitting",
+    type: dynamic_short_type
+  },
+  %{
+    name: "right step when sitting",
+    type: dynamic_short_type
+  },
+  %{
+    name: "left step when sitting",
+    type: dynamic_short_type
+  },
+  %{
+    name: "cross right leg",
+    type: static_type
+  },
+  %{
+    name: "cross left leg",
+    type: static_type
+  },
+  %{
+    name: "play computer",
+    type: static_type
   }
 ]
 
 lying = [
   %{
-    name: "lying",
+    name: "lying down",
+    type: static_type
+  },
+  %{
+    name: "lying on front",
     type: static_type
   }
 ]
@@ -43,6 +83,10 @@ walking = [
   %{
     name: "walking",
     type: dynamic_lone_type
+  },
+  %{
+    name: "running",
+    type: dynamic_long_type
   }
 ]
 
