@@ -12,7 +12,7 @@ defmodule Poselink.PostureController do
     handler: Poselink.SessionController
 
   @batch_size 8
-  @rows 9
+  @rows 20
 
   def index(conn, _params) do
     postures = Posture |> Repo.all() |> Repo.preload(:classification)
@@ -78,20 +78,23 @@ defmodule Poselink.PostureController do
         d.left_insole_acc_x,
         d.left_insole_acc_y,
         d.left_insole_acc_z,
-        # d.left_insole_pressure_a,
-        # d.left_insole_pressure_b,
-        # d.left_insole_pressure_c,
-        # d.left_insole_pressure_d,
+        d.left_insole_pressure_a,
+        d.left_insole_pressure_b,
+        d.left_insole_pressure_c,
+        d.left_insole_pressure_d,
         d.right_insole_acc_x,
         d.right_insole_acc_y,
         d.right_insole_acc_z,
-        # d.right_insole_pressure_a,
-        # d.right_insole_pressure_b,
-        # d.right_insole_pressure_c,
-        # d.right_insole_pressure_d,
+        d.right_insole_pressure_a,
+        d.right_insole_pressure_b,
+        d.right_insole_pressure_c,
+        d.right_insole_pressure_d,
         d.band_acc_x,
         d.band_acc_y,
-        d.band_acc_z
+        d.band_acc_z,
+        d.band_gyro_x,
+        d.band_gyro_y,
+        d.band_gyro_z
       ]
     query
     |> Repo.all()
