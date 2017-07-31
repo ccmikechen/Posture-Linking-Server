@@ -12,6 +12,7 @@ defmodule Poselink.PostureController do
     handler: Poselink.SessionController
 
   @batch_size 8
+  @rows 3
 
   def index(conn, _params) do
     postures = Posture |> Repo.all() |> Repo.preload(:classification)
@@ -27,7 +28,7 @@ defmodule Poselink.PostureController do
 
   def build(conn, %{"description" => description}) do
     dataset = load_all_posture_data()
-    graph_path = Poselink.PostureModelBuilder.build(dataset, 17, @batch_size)
+    graph_path = Poselink.PostureModelBuilder.build(dataset, @rows, @batch_size)
 
     new_model = %PostureModel{
       path: graph_path,
@@ -74,20 +75,20 @@ defmodule Poselink.PostureController do
       where: d.posture_record_id == ^record.id,
       order_by: [:sequence_number],
       select: [
-        d.left_insole_acc_x,
-        d.left_insole_acc_y,
-        d.left_insole_acc_z,
-        d.left_insole_pressure_a,
-        d.left_insole_pressure_b,
-        d.left_insole_pressure_c,
-        d.left_insole_pressure_d,
-        d.right_insole_acc_x,
-        d.right_insole_acc_y,
-        d.right_insole_acc_z,
-        d.right_insole_pressure_a,
-        d.right_insole_pressure_b,
-        d.right_insole_pressure_c,
-        d.right_insole_pressure_d,
+        # d.left_insole_acc_x,
+        # d.left_insole_acc_y,
+        # d.left_insole_acc_z,
+        # d.left_insole_pressure_a,
+        # d.left_insole_pressure_b,
+        # d.left_insole_pressure_c,
+        # d.left_insole_pressure_d,
+        # d.right_insole_acc_x,
+        # d.right_insole_acc_y,
+        # d.right_insole_acc_z,
+        # d.right_insole_pressure_a,
+        # d.right_insole_pressure_b,
+        # d.right_insole_pressure_c,
+        # d.right_insole_pressure_d,
         d.band_acc_x,
         d.band_acc_y,
         d.band_acc_z
