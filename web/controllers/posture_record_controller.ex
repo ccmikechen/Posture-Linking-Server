@@ -17,7 +17,15 @@ defmodule Poselink.PostureRecordController do
       records_query
       |> Repo.all()
       |> Repo.preload(:posture)
+      |> Enum.map(fn record ->
+        length_query =
+          from d in PostureRecordDetail,
+          where: d.posture_record_id == ^record.id,
+          select: count(d.id)
+        [length] = Repo.all(length_query)
 
+        %{record: record, length: length}
+      end)
       render(conn, "index.json", records: records)
   end
 end

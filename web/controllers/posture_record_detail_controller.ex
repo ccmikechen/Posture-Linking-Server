@@ -6,7 +6,7 @@ defmodule Poselink.PostureRecordDetailController do
   alias Poselink.PostureRecord
   alias Poselink.PostureRecordDetail
 
-  def show(conn, %{id: id}) do
+  def show(conn, %{"id" => id}) do
     current_user = Guardian.Plug.current_resource(conn)
     user_id = current_user.id
 

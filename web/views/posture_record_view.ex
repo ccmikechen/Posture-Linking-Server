@@ -5,7 +5,7 @@ defmodule Poselink.PostureRecordView do
     %{data: render_many(records, Poselink.PostureRecordView, "record.json")}
   end
 
-  def render("record.json", %{posture_record: record}) do
+  def render("record.json", %{posture_record: %{record: record, length: length}}) do
     %{
       id: record.id,
       weight: record.weight,
@@ -16,7 +16,8 @@ defmodule Poselink.PostureRecordView do
         name: record.posture.name
       },
       datetime: record.updated_at,
-      status: record.status
+      status: record.status,
+      length: length
     }
   end
 end
