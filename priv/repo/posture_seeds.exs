@@ -82,7 +82,7 @@ lying = [
 walking = [
   %{
     name: "walking",
-    type: dynamic_lone_type
+    type: dynamic_long_type
   },
   %{
     name: "running",
