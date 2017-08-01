@@ -22,23 +22,23 @@ defmodule Poselink.PostureView do
     %{data: render_many(records, Poselink.PostureView, "record.json")}
   end
 
-  def render("record.json", %{record: record}) do
+  def render("record.json", %{meta: meta, data: data}) do
     %{
-      id: record.meta.id,
-      width: record.meta.width,
-      height: record.meta.height,
-      insole_size: record.meta.insole_size,
+      id: meta.id,
+      width: meta.width,
+      height: meta.height,
+      insole_size: meta.insole_size,
       posture: %{
-        id: record.meta.posture.id,
-        name: record.meta.posture.name
+        id: meta.posture.id,
+        name: meta.posture.name
       },
-      datetime: record.meta.updated_at,
-      status: record.meta.status,
-      data: render_many(record.data, Poselink.PostureView, "record_detail.json")
+      datetime: meta.updated_at,
+      status: meta.status,
+      data: render_many(data, Poselink.PostureView, "record_detail.json")
     }
   end
 
-  def render("record_detail.json", %{data: data}) do
+  def render("record_detail.json", data) do
     %{
       sequence_number: data.sequence_number,
       left_insole: %{
