@@ -14,7 +14,8 @@ defmodule Poselink.PostureRecordDetailController do
       record = %{recorder_user_id: ^user_id} ->
         details_query =
           from d in PostureRecordDetail,
-          where: d.posture_record_id == ^record.id
+          where: d.posture_record_id == ^record.id,
+          order_by: [:sequence_number]
         details = Repo.all(details_query)
 
         render(conn, "index.json", posture_record_details: details)

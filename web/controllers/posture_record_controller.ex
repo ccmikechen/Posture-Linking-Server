@@ -11,7 +11,10 @@ defmodule Poselink.PostureRecordController do
 
   def show(conn, _params) do
     current_user = Guardian.Plug.current_resource(conn)
-    records_query = from r in PostureRecord, where: r.recorder_user_id == ^current_user.id
+    records_query =
+      from r in PostureRecord,
+      where: r.recorder_user_id == ^current_user.id,
+      order_by: [:id]
 
     records =
       records_query
