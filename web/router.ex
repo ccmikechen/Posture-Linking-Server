@@ -32,7 +32,7 @@ defmodule Poselink.Router do
     get "/posture/dataset", PostureController, :dataset
     get "/posture/model", PostureController, :model
     post "/posture/model/build", PostureController, :build
-    get "/posture/records", PostureController, :show_records
+    get "/posture/records", PostureRecordController, :show
   end
 
   scope "/webhook", Poselink do
