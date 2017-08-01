@@ -1,7 +1,11 @@
 defmodule Poselink.PostureRecordDetailView do
   use Poselink.Web, :view
 
-    def render("record_detail.json", %{posture_record_detail: data}) do
+  def render("index.json", %{posture_record_details: details}) do
+    render_many(details, Poselink.PostureRecordDetailView, "record_detail.json")
+  end
+
+  def render("record_detail.json", %{posture_record_detail: data}) do
     %{
       sequence_number: data.sequence_number,
       left_insole: %{

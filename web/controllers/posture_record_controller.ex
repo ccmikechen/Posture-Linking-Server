@@ -17,14 +17,6 @@ defmodule Poselink.PostureRecordController do
       records_query
       |> Repo.all()
       |> Repo.preload(:posture)
-      |> Enum.map(fn record ->
-      details_query = from d in PostureRecordDetail, where: d.posture_record_id == ^record.id
-      recordDetails = Repo.all(details_query)
-      %{
-        meta: record,
-        data: recordDetails
-      }
-    end)
 
       render(conn, "index.json", records: records)
   end
