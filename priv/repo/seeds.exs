@@ -119,10 +119,10 @@ events = [
         "type" => "option",
         "name" => "time",
         "options" => [
-          %{name: '10', value: 10},
-          %{name: '20', value: 20},
-          %{name: '30', value: 30},
-          %{name: '60', value: 60},
+          %{name: "10", value: 10},
+          %{name: "20", value: 20},
+          %{name: "30", value: 30},
+          %{name: "60", value: 60},
         ]
       }
     ]
@@ -232,7 +232,7 @@ events = [
         "type" => "option",
         "name" => "posture_id",
         "options" => [
-          %{name: 'Sit', value: 3}
+          %{name: "Sit", value: 3}
         ]
       }
     ]
