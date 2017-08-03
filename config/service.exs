@@ -22,7 +22,7 @@ config :poselink, TriggerService,
     },
     {
       "posture", TriggerService.PostureTrigger, [
-        {"on stand", :on_stand}
+        {"on action", :on_action}
       ]
     }
   ]

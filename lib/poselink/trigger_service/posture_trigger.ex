@@ -12,12 +12,32 @@ defmodule Poselink.TriggerService.PostureTrigger do
     GenServer.start_link(__MODULE__, service_id, [name: __MODULE__])
   end
 
-  def on_stand(_user, payload) do
-    GenServer.cast(__MODULE__, {:on_stand, payload})
+  def on_action(_user, payload) do
+    GenServer.cast(__MODULE__, {:on_action, payload})
   end
 
-  def handle_cast({:on_stand, payload}, service_id) do
-    
+  def handle_cast({:on_action, payload}, service_id) do
+    import Ecto.Query
+
+    posture_id = payload["postureId"]
+
+    query =
+      from t in Trigger,
+      join: e in Event, on: [id: t.event_id],
+      where: e.service_id == ^service_id and e.name == "on action",
+      select: t
+
+    query
+    |> Repo.all()
+    |> Enum.each(fn trigger ->
+      case Poison.decode!(trigger.config) do
+        %{"posture_id" => ^posture_id} ->
+          Poselink.TriggerServer.trigger(trigger, %{})
+        _ ->
+          :nothing
+      end
+    end)
+
     {:noreply, service_id}
   end
 end

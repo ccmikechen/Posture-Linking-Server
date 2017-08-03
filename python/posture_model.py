@@ -20,7 +20,7 @@ def create_posture_model(rows, cols, classes):
                      activation='relu',
                      input_shape=(1, cols, rows)))
     model.add(Conv2D(nb_filters * 2, (nb_conv, nb_conv), activation='relu'))
-    model.add(MaxPooling2D(pool_size=(nb_pool, nb_pool)))
+#    model.add(MaxPooling2D(pool_size=(nb_pool, nb_pool)))
     model.add(Flatten())
     model.add(Dense(nb_filters * 4, activation='relu'))
     model.add(Dense(classes, activation='softmax'))

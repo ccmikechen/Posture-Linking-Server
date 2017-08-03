@@ -18,7 +18,7 @@ defmodule Poselink.TriggerService.ButtonTrigger do
 
   def handle_cast({:on_click, payload}, service_id) do
     case payload do
-      %{"combination_id" => combination_id} ->
+      %{"combinationId" => combination_id} ->
 
         query =
           from t in Trigger,
