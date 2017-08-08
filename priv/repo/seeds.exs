@@ -232,7 +232,24 @@ events = [
         "type" => "option",
         "name" => "posture_id",
         "options" => [
-          %{name: "Sit", value: 3}
+          %{name: "Lying down", value: 1},
+          %{name: "Lying on front", value: 2},
+          %{name: "Sitting", value: 3},
+          %{name: "Shaking hand when sitting", value: 4},
+          %{name: "Claping hands when sitting", value: 5},
+          %{name: "Right step when sitting", value: 6},
+          %{name: "Left step when sitting", value: 7},
+          %{name: "Cross right leg", value: 8},
+          %{name: "Cross left leg", value: 9},
+          %{name: "Play computer", value: 10},
+          %{name: "Standing", value: 11},
+          %{name: "Shaking hand when standing", value: 12},
+          %{name: "Jumping", value: 13},
+          %{name: "Claping hands when standing", value: 14},
+          %{name: "Right step when standing", value: 15},
+          %{name: "Left step when standing", value: 16},
+          %{name: "Walking", value: 17},
+          %{name: "Running", value: 18}
         ]
       }
     ]

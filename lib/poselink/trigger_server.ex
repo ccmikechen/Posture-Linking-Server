@@ -33,11 +33,15 @@ defmodule Poselink.TriggerServer do
         case check_service_status(event.service_id, combination.user_id) do
           {:connected, _} ->
             IO.puts "#{inspect(self())}: Combination #{combination.id} has been triggered"
+
             Poselink.ActionServer.execute(
               combination.user,
               combination.action,
               payload
             )
+
+            Poselink.Endpoint.broadcast("trigger:#{combination.user.id}", "trigger",
+              %{combination_id: combination.id, payload: payload})
           {:not_connected, _} ->
             :nothing
         end

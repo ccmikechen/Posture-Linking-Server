@@ -6,6 +6,7 @@ defmodule Poselink.UserSocket do
   ## Channels
   # channel "room:*", Poselink.RoomChannel
   channel "posture:*", Poselink.PostureChannel
+  channel "trigger:*", Poselink.TriggerChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
@@ -26,7 +27,9 @@ defmodule Poselink.UserSocket do
   def connect(%{"guardian_token" => jwt}, socket) do
     case sign_in(socket, jwt) do
       {:ok, authed_socket, guardian_params} ->
-        {:ok, authed_socket}
+        user = current_resource(socket)
+
+        {:ok, assign(authed_socket, :user_id, user.id)}
       _ ->
         {:error, socket}
     end
@@ -34,7 +37,7 @@ defmodule Poselink.UserSocket do
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
   #
-  #     def id(socket), do: "users_socket:#{socket.assigns.user_id}"
+  def id(socket), do: "users_socket:#{socket.assigns.user_id}"
   #
   # Would allow you to broadcast a "disconnect" event and terminate
   # all active sockets and channels for a given user:
