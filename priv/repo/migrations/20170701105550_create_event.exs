@@ -5,7 +5,7 @@ defmodule Poselink.Repo.Migrations.CreateEvent do
     create table(:events) do
       add :name, :string, null: false
       add :description, :string, null: false
-      add :options, :string, null: false
+      add :options, :string, size: 4096, null: false
       add :service_id, references(:services, on_delete: :nothing)
 
       timestamps()
