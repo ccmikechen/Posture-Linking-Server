@@ -12,7 +12,7 @@ defmodule Poselink.PostureController do
     handler: Poselink.SessionController
 
   @batch_size 8
-  @rows 20
+  @rows 23
 
   def index(conn, _params) do
     postures = Posture |> Repo.all() |> Repo.preload(:classification)

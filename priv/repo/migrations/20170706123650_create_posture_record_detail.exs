@@ -23,6 +23,9 @@ defmodule Poselink.Repo.Migrations.CreatePostureRecordDetail do
       add :band_gyro_x, :float, null: false
       add :band_gyro_y, :float, null: false
       add :band_gyro_z, :float, null: false
+      add :belt_acc_x, :float, null: false
+      add :belt_acc_y, :float, null: false
+      add :belt_acc_z, :float, null: false
       add :sequence_number, :integer, null: false
       add :posture_record_id, references(:posture_records, on_delete: :nothing)
 
